@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<title>简中互联网梗编年史 · 1997-2026</title>
+<meta name="description" content="简体中文互联网所有梗的全面总结，按时间顺序排列，每个梗都有详细介绍">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg2: #12121a;
+  --bg3: #1a1a28;
+  --card: rgba(22,22,34,0.5);
+  --border: rgba(255,255,255,0.06);
+  --text: #e8e6f0;
+  --text2: #9896a8;
+  --accent: #a78bfa;
+  --glow: rgba(167,139,250,0.2);
+  --era1: #f472b6;
+  --era2: #fb923c;
+  --era3: #a78bfa;
+  --era4: #34d399;
+  --era5: #38bdf8;
+  --era6: #f43f5e;
+  --era7: #facc15;
+  --radius: 16px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+}
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  background:var(--bg); color:var(--text); line-height:1.7;
+  overflow-x:hidden; padding-bottom:var(--safe-b);
+  -webkit-font-smoothing:antialiased;
+}
+::selection { background:var(--accent); color:#fff; }
+a { color:var(--accent); text-decoration:none; }
+
+/* ===== Hero ===== */
+.hero {
+  position:relative; min-height:100vh; min-height:100dvh;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; padding:2rem 1.5rem; overflow:hidden;
+}
+.hero::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 30%, rgba(167,139,250,0.08), transparent),
+    radial-gradient(ellipse 40% 40% at 30% 70%, rgba(244,114,182,0.06), transparent),
+    radial-gradient(ellipse 40% 40% at 70% 60%, rgba(56,189,248,0.06), transparent);
+  animation:aurora 12s ease-in-out infinite alternate;
+}
+@keyframes aurora { 0%{opacity:.6;transform:scale(1)} 100%{opacity:1;transform:scale(1.1)} }
+.hero-badge {
+  position:relative; display:inline-flex; align-items:center; gap:.5rem;
+  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+  border-radius:100px; padding:.4rem 1rem; font-size:.8rem; color:var(--accent);
+  margin-bottom:1.5rem; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+}
+.hero-badge .dot {
+  width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+.hero h1 {
+  position:relative; font-size:clamp(2rem,8vw,4rem); font-weight:800; line-height:1.2;
+  background:linear-gradient(135deg,#fff 0%,var(--accent) 50%,var(--era1) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text; margin-bottom:1rem;
+}
+.hero p {
+  position:relative; font-size:clamp(.95rem,3vw,1.15rem); color:var(--text2);
+  max-width:500px; margin-bottom:2rem;
+}
+.hero-stats { position:relative; display:flex; gap:2rem; margin-bottom:2rem; }
+.hero-stat { text-align:center; }
+.hero-stat .num { font-size:2rem; font-weight:800; color:var(--accent); }
+.hero-stat .label { font-size:.75rem; color:var(--text2); }
+.scroll-hint {
+  position:relative; display:flex; flex-direction:column; align-items:center;
+  gap:.5rem; color:var(--text2); font-size:.8rem; animation:float 3s ease-in-out infinite;
+}
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+.scroll-hint svg { width:20px;height:20px; }
+
+/* ===== Sticky Controls ===== */
+.controls {
+  position:sticky; top:0; z-index:100;
+  background:rgba(10,10,15,0.85);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:.75rem 1rem; padding-top:calc(.75rem + var(--safe-t));
+}
+.search-box { position:relative; margin-bottom:.6rem; }
+.search-box input {
+  width:100%; background:var(--bg3); border:1px solid var(--border);
+  border-radius:12px; padding:.7rem 1rem .7rem 2.5rem;
+  color:var(--text); font-size:.95rem; outline:none; transition:border-color .3s;
+}
+.search-box input:focus { border-color:var(--accent); }
+.search-box input::placeholder { color:var(--text2); }
+.search-box .search-icon {
+  position:absolute; left:.8rem; top:50%; transform:translateY(-50%);
+  width:18px;height:18px; color:var(--text2); pointer-events:none;
+}
+.era-tabs {
+  display:flex; gap:.4rem; overflow-x:auto; scrollbar-width:none;
+  -ms-overflow-style:none; padding-bottom:2px;
+}
+.era-tabs::-webkit-scrollbar { display:none; }
+.era-tab {
+  flex-shrink:0; padding:.35rem .75rem; border-radius:100px;
+  border:1px solid var(--border); background:transparent; color:var(--text2);
+  font-size:.78rem; cursor:pointer; transition:all .3s; white-space:nowrap;
+}
+.era-tab.active,.era-tab:hover {
+  background:var(--accent); color:#fff; border-color:var(--accent);
+}
+
+/* ===== Main Content ===== */
+.content { max-width:680px; margin:0 auto; padding:1.5rem 1rem 3rem; }
+
+/* ===== Era Section ===== */
+.era-section { margin-bottom:3rem; }
+.era-header { position:relative; padding:1.5rem 0 1.5rem 1.2rem; margin-bottom:1rem; }
+.era-header::before {
+  content:''; position:absolute; left:0; top:0; bottom:0;
+  width:3px; border-radius:3px; background:var(--era-color,var(--accent));
+}
+.era-label {
+  display:inline-block; font-size:.7rem; font-weight:600;
+  letter-spacing:.08em; color:var(--era-color,var(--accent));
+  background:rgba(255,255,255,0.06); padding:.2rem .6rem;
+  border-radius:6px; margin-bottom:.5rem;
+}
+.era-title { font-size:1.5rem; font-weight:800; margin-bottom:.3rem; }
+.era-desc { color:var(--text2); font-size:.85rem; max-width:90%; }
+
+/* ===== Year Group ===== */
+.year-group { margin-bottom:1.5rem; }
+.year-row {
+  display:flex; align-items:center; gap:.6rem;
+  margin-bottom:.8rem; padding-left:.2rem; flex-wrap:wrap;
+}
+.year-badge {
+  display:inline-flex; align-items:center; gap:.4rem;
+  font-size:1.1rem; font-weight:800; color:var(--era-color,var(--accent));
+}
+.year-badge::before {
+  content:''; width:8px; height:8px; border-radius:50%;
+  background:var(--era-color,var(--accent));
+}
+.expand-all {
+  display:inline-flex; align-items:center; gap:.3rem;
+  background:none; border:1px solid var(--border); color:var(--text2);
+  font-size:.75rem; padding:.25rem .6rem; border-radius:8px;
+  cursor:pointer; transition:all .3s; margin-left:auto;
+}
+.expand-all:hover { border-color:var(--accent); color:var(--accent); }
+
+/* ===== Meme Card ===== */
+.meme-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:var(--radius); margin-bottom:.8rem;
+  overflow:hidden; transition:transform .15s,border-color .3s,box-shadow .3s;
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+}
+.meme-card:active { transform:scale(0.985); }
+.meme-card.highlight { border-color:var(--accent); box-shadow:0 0 20px var(--glow); }
+
+.meme-head {
+  padding:1rem 1.2rem; cursor:pointer;
+  display:flex; align-items:center; gap:.8rem;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+.meme-icon {
+  flex-shrink:0; width:40px; height:40px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center; font-size:1.2rem;
+  background:rgba(255,255,255,0.06);
+}
+.meme-title-wrap { flex:1; min-width:0; }
+.meme-title { font-size:1rem; font-weight:700; line-height:1.3; }
+.meme-sub {
+  font-size:.78rem; color:var(--text2); margin-top:.15rem;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.meme-toggle {
+  flex-shrink:0; width:28px; height:28px; border-radius:50%;
+  background:rgba(255,255,255,0.06);
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .3s,background .3s;
+}
+.meme-card.open .meme-toggle { transform:rotate(180deg); background:var(--accent); }
+.meme-toggle svg { width:14px;height:14px; color:var(--text2); }
+.meme-card.open .meme-toggle svg { color:#fff; }
+
+.meme-body { max-height:0; overflow:hidden; transition:max-height .4s ease; }
+.meme-card.open .meme-body { max-height:3000px; }
+.meme-content {
+  padding:0 1.2rem 1.2rem; border-top:1px solid var(--border); padding-top:1rem;
+}
+.meme-content p {
+  font-size:.88rem; color:var(--text2); margin-bottom:.8rem; line-height:1.8;
+}
+.meme-content p:last-child { margin-bottom:0; }
+.meme-content strong { color:var(--text); }
+.meme-tag {
+  display:inline-block; font-size:.7rem; padding:.15rem .5rem;
+  border-radius:6px; background:rgba(255,255,255,0.06); color:var(--text2);
+  margin-right:.3rem; margin-bottom:.3rem;
+}
+
+/* ===== Counter ===== */
+.counter-bar { text-align:center; padding:1.5rem 1rem; color:var(--text2); font-size:.85rem; }
+.counter-bar span { color:var(--accent); font-weight:700; }
+
+/* ===== Footer ===== */
+.footer {
+  text-align:center; padding:3rem 1rem 2rem; color:var(--text2);
+  font-size:.78rem; border-top:1px solid var(--border);
+}
+
+/* ===== Back to Top ===== */
+.btt {
+  position:fixed; bottom:calc(1.5rem + var(--safe-b)); right:1rem;
+  width:44px; height:44px; border-radius:50%;
+  background:var(--accent); color:#fff; border:none;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 20px rgba(167,139,250,0.3);
+  cursor:pointer; opacity:0; pointer-events:none;
+  transform:translateY(20px); transition:all .3s; z-index:99;
+}
+.btt.show { opacity:1; pointer-events:auto; transform:translateY(0); }
+.btt svg { width:20px;height:20px; }
+
+/* ===== No Results ===== */
+.no-results {
+  text-align:center; padding:3rem 1rem; color:var(--text2); display:none;
+}
+.no-results.show { display:block; }
+.no-results .emoji { font-size:3rem; margin-bottom:1rem; }
+
+/* ===== Fade-in Animation ===== */
+.fade-in { opacity:0; transform:translateY(16px); transition:opacity .5s,transform .5s; }
+.fade-in.visible { opacity:1; transform:translateY(0); }
+
+/* ===== Responsive tweaks ===== */
+@media(min-width:768px) {
+  .content { padding:2rem 1.5rem 4rem; }
+  .era-header { padding-left:1.5rem; }
+  .meme-card { margin-left:0; }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-badge"><span class="dot"></span>1997 — 2026 · 持续更新</div>
+  <h1>简中互联网<br>梗编年史</h1>
+  <p>从BBS到短视频，从「斑竹」到「邪修」——一部简体中文互联网的造梗史诗</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num" id="totalCount">200+</div><div class="label">收录梗数</div></div>
+    <div class="hero-stat"><div class="num">30</div><div class="label">跨越年份</div></div>
+    <div class="hero-stat"><div class="num">7</div><div class="label">互联网纪元</div></div>
+  </div>
+  <div class="scroll-hint">
+    <span>向下滚动探索</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+  </div>
+</section>
+
+<div class="controls" id="controls">
+  <div class="search-box">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="搜索梗、关键词、年份…" autocomplete="off">
+  </div>
+  <div class="era-tabs" id="eraTabs">
+    <button class="era-tab active" data-era="all">全部</button>
+    <button class="era-tab" data-era="1">🖥️ BBS时代</button>
+    <button class="era-tab" data-era="2">📝 博客时代</button>
+    <button class="era-tab" data-era="3">📱 微博时代</button>
+    <button class="era-tab" data-era="4">🎬 短视频时代</button>
+    <button class="era-tab" data-era="5">🦠 后疫情时代</button>
+    <button class="era-tab" data-era="6">🤖 AI时代</button>
+    <button class="era-tab" data-era="7">✨ 2026</button>
+  </div>
+</div>
+
+<main class="content" id="content"></main>
+
+<div class="no-results" id="noResults">
+  <div class="emoji">🔍</div>
+  <p>没有找到相关的梗</p>
+  <p style="font-size:.8rem;margin-top:.5rem">试试其他关键词？</p>
+</div>
+
+<div class="counter-bar" id="counterBar">
+  共收录 <span id="visibleCount">0</span> 个梗
+</div>
+
+<footer class="footer">
+  <p>简中互联网梗编年史 · 2026</p>
+  <p style="margin-top:.3rem">致敬每一个造梗的你 🫡</p>
+</footer>
+
+<button class="btt" id="btt" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<script>
+/* ===== Data ===== */
+const ERAS = [
+  {id:1,name:"BBS洪荒时代",sub:"1997-2002 · 中国互联网破冰期",color:"var(--era1)",
+   desc:"从水木清华到天涯猫扑，初代网民在BBS论坛用缩写和谐音创造了最早的互联网黑话。那是QQ还叫OICQ、上网还要拨号的年代。"},
+  {id:2,name:"博客狂欢时代",sub:"2003-2007 · Web2.0与全民参与",color:"var(--era2)",
+   desc:"百度贴吧上线、博客兴起、《超级女声》全民投票。网络文化从精英走向大众，\"恶搞\"成为新的创作方式。"},
+  {id:3,name:"微博社交时代",sub:"2008-2013 · 移动互联网崛起",color:"var(--era3)",
+   desc:"从开心网偷菜到微博140字改变舆论场，智能手机普及让每个人都是内容创作者。\"段子手\"成为新职业。"},
+  {id:4,name:"短视频娱乐时代",sub:"2014-2019 · 抖音快手重塑传播",color:"var(--era4)",
+   desc:"短视频和直播重新定义了\"梗\"的生产与传播方式。一个视频就能让一句话一夜之间传遍全网。"},
+  {id:5,name:"后疫情反思时代",sub:"2020-2023 · 集体记忆与情绪出口",color:"var(--era5)",
+   desc:"疫情深刻改变了每个人的生活，\"打工人\"\"内卷\"\"躺平\"折射出年轻人的集体焦虑与自我解嘲。"},
+  {id:6,name:"AI与新纪元",sub:"2024-2025 · 技术变革与文化碰撞",color:"var(--era6)",
+   desc:"AI大模型横空出世，\"赛博\"\"谷子\"\"主理人\"等新词涌现，互联网文化进入新阶段。"},
+  {id:7,name:"2026 · 此刻进行时",sub:"2026 · 新的梗还在诞生",color:"var(--era7)",
+   desc:"一切仍在发生。新的梗正在被创造、传播、遗忘、又复活。"}
+];
+
+const MEMES = [
+  // ===== ERA 1: BBS 1997-2002 =====
+  {era:1,year:1997,icon:"🌐",title:"斑竹",sub:"BBS论坛管理员的谐音称呼",
+   tags:["BBS","谐音梗","初代互联网"],
+   body:`<p><strong>来源：</strong>「斑竹」是「版主」的谐音，源自早期BBS论坛时代。因为输入法的关系，网民们将「版主」打成「斑竹」，久而久之成为BBS社区中对论坛管理员的通用称呼。</p>
+   <p><strong>文化背景：</strong>1997年前后，中国互联网刚刚起步，水木清华、北大未名等校园BBS是最早的网络社区。在这个精英化的网络空间里，「斑竹」是一个既亲切又带有调侃意味的称呼，体现了初代网民之间独特的社交文化。</p>
+   <p><strong>衍生词汇：</strong>「竹页」(主页)、「大虾」(大侠，指资深网民)、「菜鸟」(新手)、「灌水」(随意发帖) 等，构成了最早的网络黑话体系。</p>`},
+
+  {era:1,year:1998,icon:"🌊",title:"灌水 / 潜水",sub:"论坛时代最基本的行为术语",
+   tags:["BBS","论坛文化","基础术语"],
+   body:`<p><strong>来源：</strong>「灌水」指在BBS论坛中发布大量无意义的帖子或回复，目的是增加发帖数量或赚取积分。这个比喻非常形象——往论坛里「灌水」，就像往容器里倒水一样填充内容。</p>
+   <p><strong>衍生含义：</strong>「潜水」则指只浏览不发帖的行为，「潜水员」是那些默默围观但从不发言的用户。「冒泡」指潜水员偶尔出现一次。</p>
+   <p><strong>历史意义：</strong>这些词汇伴随了整个BBS时代，至今仍在使用。从灌水中也衍生出了「沙发」(第一个回帖)、「板凳」(第二个回帖)、「地板」(第三个回帖)等独特的回帖文化。</p>`},
+
+  {era:1,year:1999,icon:"💬",title:"GG / MM / DD",sub:"最早的拼音缩写社交用语",
+   tags:["缩写","QQ","初代社交"],
+   body:`<p><strong>来源：</strong>GG = 哥哥(男性)，MM = 美眉/妹妹(女性)，DD = 弟弟。这些缩写诞生于QQ和聊天室时代，是中文互联网最早的缩写文化。</p>
+   <p><strong>使用场景：</strong>「你是GG还是MM？」是那个年代网络社交最经典的开场白。在匿名聊天室里，性别往往是第一个需要确认的信息。</p>
+   <p><strong>时代特征：</strong>同时期还流行「恐龙」(外貌不佳的女性)、「青蛙」(外貌不佳的男性)、「见光死」(网友见面后发现对方与网络形象差距太大)等词汇。这些略显刻薄但充满幽默感的词汇，折射出初代网民对虚拟社交既兴奋又警惕的心态。</p>`},
+
+  {era:1,year:2000,icon:"🔢",title:"数字谐音大全",sub:"886/520/1314/555…",
+   tags:["谐音","数字","初代互联网"],
+   body:`<p><strong>来源：</strong>在输入法不发达、网络带宽有限的年代，用数字代替文字是最高效的沟通方式。这些数字谐音成为了一代人的共同密码。</p>
+   <p><strong>经典对照：</strong><br>
+   886 = 拜拜了 · 520 = 我爱你 · 1314 = 一生一世<br>
+   5201314 = 我爱你一生一世 · 555 = 呜呜呜(哭)<br>
+   9494 = 就是就是 · 7456 = 气死我了<br>
+   847 = 别生气 · 0487 = 你是白痴</p>
+   <p><strong>历史价值：</strong>数字谐音是最早的网络语言形式之一，它证明了在技术条件受限时，网民依然有强烈的表达创新欲望。这种谐音文化一直延续至今，如「666」「2333」等。</p>`},
+
+  {era:1,year:2001,icon:"🦖",title:"恐龙 / 青蛙 / 见光死",sub:"初代网民的颜值评价体系",
+   tags:["BBS","社交","外貌"],
+   body:`<p><strong>来源：</strong>「恐龙」用来调侃外貌不佳的女性网民，「青蛙」对应男性。这套网络颜值评价体系诞生于BBS和聊天室时代。</p>
+   <p><strong>「见光死」：</strong>特指网友线下见面后，因对方真实外貌与网络形象反差太大而导致关系破裂。这是「网恋」文化中最重要的概念之一。</p>
+   <p><strong>社会背景：</strong>2001年前后，网络社交刚刚开始普及，人们对虚拟世界中的身份充满好奇和不信任。这些词汇虽然不够友善，但反映了当时网民对「网络身份真实性」这一核心焦虑的表达方式。</p>`},
+
+  {era:1,year:2002,icon:"🗣️",title:"偶 / 酱紫 / 表",sub:"台湾腔席卷大陆互联网",
+   tags:["台湾腔","谐音","语言融合"],
+   body:`<p><strong>来源：</strong>「偶」=「我」，「酱紫」=「这样子」，「表」=「不要」。这些词源自台湾综艺节目在大陆的流行，台湾腔的软萌表达方式深刻影响了早期大陆网络用语。</p>
+   <p><strong>文化影响：</strong>2000年代初期，台湾偶像剧和综艺节目在大陆风靡。「偶好稀饭你」(我好喜欢你)、「不要酱紫啦」这类表达成为网络社交的标配语气。</p>
+   <p><strong>同期热词：</strong>「弓虽」(强的拆字)、「顶」(支持帖子)、「晕」(表示惊讶/无语)、「汗」(表示尴尬/无语)。这些词汇通过表情化文字的方式，在纯文本的网络环境中模拟了面部表情。</p>`},
+
+  // ===== ERA 2: Blog 2003-2007 =====
+  {era:2,year:2003,icon:"📌",title:"做人要厚道",sub:"冯小刚电影引爆全民口头禅",
+   tags:["电影","冯小刚","社会心态"],
+   body:`<p><strong>来源：</strong>出自2003年底冯小刚导演的电影《手机》，片中严守一(张国立饰)的台词「做人要厚道」迅速走红，成为2003-2004年最火的网络流行语之一。</p>
+   <p><strong>使用语境：</strong>当有人做出不厚道、不讲道德的行为时，网民们就用这句话来讽刺或调侃。它既是正面的呼吁，也常被用作反讽。</p>
+   <p><strong>时代背景：</strong>这句话的流行标志着网络流行语开始从单纯的缩写/谐音，向影视文化和社会评论的方向发展。互联网正在从一个技术社区变成社会舆论场。</p>`},
+
+  {era:2,year:2004,icon:"📷",title:"芙蓉姐姐",sub:"中国初代网红现象",
+   tags:["网红","BBS","社会现象"],
+   body:`<p><strong>来源：</strong>2004年，一位自称「清水出芙蓉，天然去雕饰」的女性（本名史恒侠），在水木清华和北大未名BBS上发布大量自拍照和自述文章。她在镜头前摆出夸张的S形造型，与自述文字形成强烈反差，引发全网围观。</p>
+   <p><strong>社会影响：</strong>「芙蓉姐姐」是中国互联网第一个真正意义上的「网红」现象。她的走红证明了网络空间可以让普通人一夜之间成为公众焦点，这种模式后来被无数人模仿。</p>
+   <p><strong>后续发展：</strong>「芙蓉姐姐」之后，「凤姐」罗玉凤等人物相继出现，共同构成了中国互联网「审丑文化」的早期面貌。学术界将其称为一种集体性的网络狂欢现象。</p>`},
+
+  {era:2,year:2005,icon:"⚔️",title:"PK / 信春哥，得永生",sub:"超级女声与网络造神运动",
+   tags:["超女","选秀","网络造神"],
+   body:`<p><strong>「PK」来源：</strong>Player Kill的缩写，源自网络游戏，指对决/淘汰。2005年《超级女声》节目中大量使用PK环节，这个词由此进入全民词汇。</p>
+   <p><strong>「信春哥，得永生」来源：</strong>2005年李宇春获得《超级女声》冠军后，网络上兴起了一场声势浩大的「拜春哥」运动。因为李宇春的中性形象，网民们用反讽的方式将她塑造为「春哥」，创造了一系列恶搞图片和段子。</p>
+   <p><strong>文化意义：</strong>这标志着中国网民开始具备「造梗」和「造神」的能力。同一时期的「额滴神啊」(《武林外传》)、黄健翔解说「他不是一个人在战斗！」等，都体现了这一时期互联网文化的爆发式增长。</p>
+   <p><strong>其他同期热词：</strong>「顶你个肺」(广东话粗口的委婉版)、「RP」(人品，指运气)、「Orz」(失意体前屈，象形文字表示跪拜/崩溃)。</p>`},
+
+  {era:2,year:2006,icon:"🎙️",title:"你不是一个人在战斗！",sub:"黄健翔世界杯解说名场面",
+   tags:["体育","解说","情绪爆发"],
+   body:`<p><strong>来源：</strong>2006年6月26日，世界杯1/8决赛意大利对澳大利亚，央视解说员黄健翔在意大利获得点球后情绪失控，高喊：「伟大的意大利的左后卫！他不是一个人在战斗！……这一刻他不是一个人在战斗，这一刻他灵魂附体！」</p>
+   <p><strong>传播影响：</strong>这段激情解说迅速在网上疯传，「你不是一个人在战斗」成为表达团队精神和鼓舞士气的金句。各种恶搞版本层出不穷。</p>
+   <p><strong>文化影响：</strong>黄健翔的「解说门」事件是中国互联网舆论力量的早期展示——一段视频可以在短时间内引爆全民讨论，传统媒体的权威也开始被互联网解构。</p>`},
+
+  {era:2,year:2007,icon:"🔥",title:"很黄很暴力 / 打酱油",sub:"网民态度表达的黄金时代",
+   tags:["社会事件","态度","围观文化"],
+   body:`<p><strong>「很黄很暴力」来源：</strong>2007年底，央视《新闻联播》报道网络色情问题时，采访了一位小学生，她说网页「很黄很暴力」。这句话迅速走红，被用于各种造句和恶搞。</p>
+   <p><strong>「打酱油」来源：</strong>源自广州电视台采访路人时，一位市民回答「关我咩事，我出来买酱油的」。此后，「打酱油」成为「与我无关」「路过不参与」的代名词。</p>
+   <p><strong>文化意义：</strong>这些流行语体现了网民「围观」文化的形成——面对社会事件，网民选择以一种幽默、旁观的姿态参与其中，既不激烈批判也不积极参与，而是用调侃消解严肃性。</p>`},
+
+  // ===== ERA 3: Weibo 2008-2013 =====
+  {era:3,year:2008,icon:"😰",title:"囧 / 雷人 / 山寨",sub:"象形文字与草根文化爆发",
+   tags:["象形","草根","文化爆发"],
+   body:`<p><strong>「囧」来源：</strong>「囧」本是一个古老的汉字(意为光明)，但因为它的形状像一张沮丧的脸(口=嘴，八=眉毛)，被网民重新赋予了「尴尬、无奈、郁闷」的含义。2008年成为年度最火汉字。</p>
+   <p><strong>「雷人」来源：</strong>形容某事令人震惊到像被雷劈了一样。常用于形容令人无语或难以理解的事物。「我被雷到了」成为常用表达。</p>
+   <p><strong>「山寨」来源：</strong>原指山上的小作坊仿造名牌产品。2008年，随着「山寨手机」「山寨春晚」「山寨明星」等现象大量涌现，「山寨」成为年度关键词，代表了一种草根对抗精英、模仿中创新的文化现象。</p>
+   <p><strong>其他同期热词：</strong>「俯卧撑」(源自某案件中的官方解释，成为讽刺公权力的代名词)、「槑」(两个呆，比呆更呆)、「霹雳」(形容震惊程度比「雷」更高)。</p>`},
+
+  {era:3,year:2009,icon:"🏠",title:"贾君鹏你妈妈喊你回家吃饭",sub:"百度贴吧第一神帖",
+   tags:["贴吧","社会事件","集体狂欢"],
+   body:`<p><strong>来源：</strong>2009年7月16日，百度贴吧魔兽世界吧出现一个标题为「贾君鹏，你妈妈喊你回家吃饭！」的空帖子。在没有任何内容的情况下，该帖6小时内获得39万点击、1.7万回复，最终回复数超过百万。</p>
+   <p><strong>爆火原因：</strong>当时正值《魔兽世界》国服停服，大量玩家在贴吧无所事事，这句充满生活气息的话勾起了人们对童年和家的回忆，引发了一场集体怀旧与网络狂欢。</p>
+   <p><strong>衍生影响：</strong>「你妈喊你回家吃饭」成为通用句式，被广泛用于各种语境。有人改为「台湾，你妈喊你回家吃饭」(祖国60周年大庆)，成为具有社会评论意义的表达。</p>
+   <p><strong>2009年其他重要梗：</strong></p>
+   <p>「哥吃的不是面，是寂寞」—— 一张非主流男子吃面的图配文，催生「寂寞党」。<br>
+   「不差钱」—— 小沈阳春晚小品，连带「这个可以有」一起走红。<br>
+   「不要迷恋哥，哥只是个传说」—— 猫扑恶搞帖引发的全民PS狂欢。<br>
+   「被XX」—— 「被就业」「被自杀」等，表达对信息不透明的讽刺。<br>
+   「躲猫猫」—— 源自看守所离奇死亡事件的官方解释，成为荒诞的代名词。</p>`},
+
+  {era:3,year:2010,icon:"☁️",title:"神马都是浮云 / 给力 / 我爸是李刚",sub:"造句运动的巅峰之年",
+   tags:["年度热词","造句","社会评论"],
+   body:`<p><strong>「神马都是浮云」来源：</strong>「神马」是「什么」的谐音。2010年天涯论坛上「小月月」事件走红后，「什么都是浮云」变成了「神马都是浮云」。在当年热词投票中使用率高达66.7%，成为表达豁达和自嘲的万能金句。</p>
+   <p><strong>「给力」来源：</strong>源自日本动画《西游记:旅程的终点》中文配音版(由cucn201制作)，白客配音的悟空说「这就是天竺吗？不给力啊」。2010年世界杯期间大规模使用，后被收录于《现代汉语词典(第6版)》。</p>
+   <p><strong>「我爸是李刚」来源：</strong>2010年10月，河北大学校园内发生车祸，肇事者被指喊出「有本事你们告去，我爸是李刚」。这句话迅速成为网民造句的素材，被编成歌曲、段子、对联，形成了一场大规模的「造句运动」，实质是公众对权力腐败的集体愤怒。</p>
+   <p><strong>其他2010热词：</strong>「羡慕嫉妒恨」「你懂的」「鸭梨山大」「我勒个去」「蒜你狠」(姜你军/豆你玩，反映物价上涨)。</p>`},
+
+  {era:3,year:2011,icon:"✋",title:"Hold住 / 有木有 / 伤不起",sub:"咆哮体与卖萌文化的碰撞",
+   tags:["综艺","咆哮体","卖萌"],
+   body:`<p><strong>「Hold住」来源：</strong>出自台湾综艺节目《大学生了没》，嘉宾谢依霖以「Hold住姐」的艺名走红。她在节目中用夸张的方式诠释各种场面，核心台词「整个场面我都能Hold住」迅速走红。「Hold住」意为「控制住局面」「稳住」。</p>
+   <p><strong>「有木有」来源：</strong>「有没有」的谐音，配合咆哮体(用大量感叹号和夸张语气表达情绪)使用，例如：「上班天天加班有木有！！！！！！」</p>
+   <p><strong>「伤不起」来源：</strong>原为网络歌曲名，后被广泛使用，表示某种情况让人难以承受。与咆哮体配合使用效果更佳。</p>
+   <p><strong>「卖萌」：</strong>指刻意表现出可爱的样子。这个词在ACG(动漫游戏)圈和大众文化之间架起了桥梁，标志着二次元文化开始影响主流网络用语。</p>`},
+
+  {era:3,year:2012,icon:"🔥",title:"元芳，你怎么看 / 屌丝 / 正能量",sub:"全民造句与草根自嘲元年",
+   tags:["电视剧","阶层","正能量"],
+   body:`<p><strong>「元芳，你怎么看」来源：</strong>出自电视剧《神探狄仁杰》，剧中狄仁杰每次遇到案件都会问助手李元芳「元芳，你怎么看？」。网民将此句式广泛应用于各种话题的讨论和调侃中。</p>
+   <p><strong>「屌丝」来源：</strong>源自百度李毅吧(帝吧)，最初是球迷之间的互称(「毅丝不挂」→「屌丝」)。2012年迅速出圈，成为年轻人自嘲的标签。「屌丝」指没有背景、收入不高、外貌普通的普通青年，与「高富帅」「白富美」形成对比。</p>
+   <p><strong>「正能量」来源：</strong>源自英国心理学书籍的中文译名，被广泛使用于社交媒体，指积极向上的能量和态度。这个词后来被官方话语体系吸收，成为正能量叙事的一部分。</p>
+   <p><strong>其他2012热词：</strong>「你幸福吗」(央视采访名场面)、「躺着也中枪」(躺枪)、「高富帅/白富美」(与屌丝对立)、「压力山大」(亚历山大的谐音)、「XX Style」(江南Style)。</p>`},
+
+  {era:3,year:2013,icon:"🤯",title:"土豪我们做朋友吧 / 我和我的小伙伴们都惊呆了",sub:"新成语运动与网络语言主流化",
+   tags:["新成语","社交","iPhone"],
+   body:`<p><strong>「土豪，我们做朋友吧」来源：</strong>2013年9月，苹果推出「土豪金」色iPhone 5s，「土豪」一词爆火。原指有钱但审美粗糙的富人，后演变为对消费行为的自嘲。经典段子：青年问禅师如何富有，禅师伸出一只手，青年说「您是让我感恩回报？」禅师说「不，土豪，我们可以做朋友吗？」</p>
+   <p><strong>「我和我的小伙伴们都惊呆了」来源：</strong>出自一篇2011年的小学生作文截图，2013年在微博上广泛传播，缩写为「我伙呆」。</p>
+   <p><strong>「新成语运动」：</strong>2013年网民创造了大量四字缩略语：「人艰不拆」(人生已经如此艰难，有些事情就不要拆穿)、「喜大普奔」(喜闻乐见、大快人心、普天同庆、奔走相告)、「不明觉厉」(虽然不明白但觉得很厉害)、「细思极恐」(仔细想想觉得恐怖)、「累觉不爱」(累了感觉不会再爱了)。</p>
+   <p><strong>其他2013热词：</strong>「你为何放弃治疗」(何弃疗)、「待我长发及腰」「高端大气上档次」「打败你的不是天真，是无鞋」。</p>`},
+
+  // ===== ERA 4: Short Video 2014-2019 =====
+  {era:4,year:2014,icon:"💔",title:"且行且珍惜 / 也是醉了 / 萌萌哒",sub:"明星事件驱动的全民玩梗",
+   tags:["明星","娱乐","自嘲"],
+   body:`<p><strong>「且行且珍惜」来源：</strong>2014年3月，文章出轨事件曝光后，马伊琍在微博回应：「恋爱虽易，婚姻不易，且行且珍惜。」这句话迅速走红，被用于各种造句。</p>
+   <p><strong>「我也是醉了」来源：</strong>表达无奈、无语、崩溃的情绪。源自网络游戏和弹幕视频社区，2014年大规模出圈。「醉」不是真的喝醉了，而是被某种荒诞行为「醉」倒了。</p>
+   <p><strong>「萌萌哒」来源：</strong>「么么哒」的变体，形容非常可爱。配合「感觉自己萌萌哒」使用。在微博上引发了一波古诗词接龙热潮：「我自横刀向天笑，感觉自己萌萌哒」。</p>
+   <p><strong>其他2014热词：</strong>「画面太美我不敢看」(蔡依林歌词)、「你家里人知道吗」、「有钱就是任性」、「只想做个安静的美男子」、「什么仇什么怨」、「No zuo no die」。</p>`},
+
+  {era:4,year:2015,icon:"🌍",title:"世界那么大，我想去看看 / Duang / 重要的事情说三遍",sub:"辞职信文化与全民造词",
+   tags:["辞职","成龙","三遍体"],
+   body:`<p><strong>「世界那么大，我想去看看」来源：</strong>2015年4月，一封仅有10个字的辞职信在网络走红：「世界那么大，我想去看看。」这封被称为「史上最具情怀的辞职信」引发了全民讨论工作与生活的话题。</p>
+   <p><strong>「Duang」来源：</strong>2015年初，成龙2004年代言霸王洗发水的广告被网友重新剪辑配音，成龙的口头禅「Duang」成为现象级热词，形容加了特效后的夸张效果。这个字甚至一度无法在字典中找到。</p>
+   <p><strong>「重要的事情说三遍」来源：</strong>源自日本动画《潜行吧！奈亚子》的台词，被广泛用于强调重要信息。例如：「考试！考试！考试！」</p>
+   <p><strong>其他2015热词：</strong>「然并卵」(然而并没有什么卵用)、「城会玩」(城里人真会玩)、「吓死宝宝了」、「主要看气质」、「明明可以靠脸吃饭，偏偏要靠才华」、「日了狗了」、「我想静静」。</p>`},
+
+  {era:4,year:2016,icon:"💪",title:"洪荒之力 / 葛优躺 / 蓝瘦香菇",sub:"表情包文化大爆发",
+   tags:["奥运","表情包","方言"],
+   body:`<p><strong>「洪荒之力」来源：</strong>2016年里约奥运会，中国游泳运动员傅园慧在赛后采访中说出「我已经用了洪荒之力了！」，配合其夸张的表情包迅速走红。傅园慧被称为「行走的表情包」。</p>
+   <p><strong>「葛优躺/瘫」来源：</strong>出自1993年情景喜剧《我爱我家》中葛优饰演的角色瘫在沙发上的经典画面。2016年这张截图被翻出并制成大量表情包，成为形容疲惫、慵懒的万能图。</p>
+   <p><strong>「蓝瘦香菇」来源：</strong>广西南宁一位小伙因失恋录制视频，其中「难受想哭」因方言发音变成了「蓝瘦香菇」。视频迅速走红，表情包和恶搞视频铺天盖地。</p>
+   <p><strong>其他2016热词：</strong>「厉害了我的哥」、「吃瓜群众」(从「打酱油」升级)、「友谊的小船说翻就翻」、「一言不合就XX」、「撩妹」、「老司机带带我」、「小目标(先挣它一个亿)」、「狗带」(go die)。</p>`},
+
+  {era:4,year:2017,icon:"❤️",title:"扎心了老铁 / 佛系 / 还有这种操作",sub:"东北话与弹幕文化融合",
+   tags:["直播","东北话","佛系"],
+   body:`<p><strong>「扎心了，老铁」来源：</strong>出自斗鱼直播平台的抽象TV直播间，东北网友在弹幕中频繁使用。「老铁」是东北话中「好兄弟」的意思，「扎心了」表示说到了痛处。从弹幕扩散到全网。</p>
+   <p><strong>「佛系」来源：</strong>源自日本，2017年底在中国网络大规模流行。「佛系」形容一种随缘、不争不抢的生活态度：佛系青年、佛系恋爱、佛系上班、佛系考研。反映了年轻人面对高压社会时的无奈与自我调适。</p>
+   <p><strong>「还有这种操作？」来源：</strong>出自游戏直播，表达对某种出乎意料的操作的震惊。后被广泛用于各种语境。</p>
+   <p><strong>其他2017热词：</strong>「打call」(为某人加油，源自日本偶像应援文化)、「尬聊」、「你的良心不会痛吗？」(源自杜甫与李白表情包)、「皮皮虾我们走」、「你有freestyle吗」(中国有嘻哈)、「油腻」(油腻的中年男人)、「怼」(对抗/反驳)。</p>`},
+
+  {era:4,year:2018,icon:"🐟",title:"真香 / 锦鲤 / 官宣 / 杠精",sub:"综艺造梗与社交媒体狂欢",
+   tags:["综艺","微博","社交媒体"],
+   body:`<p><strong>「真香」来源：</strong>出自2014年湖南卫视节目《变形记》，城市少年王境泽刚到农村时放狠话「我就是饿死也不会吃你们的东西！」，随后画面一转他大口吃饭并说「真香」。2018年被翻出后，成为形容「打脸」行为的万能词。</p>
+   <p><strong>「锦鲤」来源：</strong>2018年国庆，支付宝发布「中国锦鲤」抽奖活动，中奖者「信小呆」获得总价值数百万元的奖品。「锦鲤」从此成为好运的代名词，「转发这条锦鲤」成为微博标配。</p>
+   <p><strong>「官宣」来源：</strong>2018年10月，赵丽颖和冯绍峰在微博宣布结婚，配文只有「官宣」两个字。这个词迅速被各行各业模仿：公司官宣新产品、学校官宣录取结果等。</p>
+   <p><strong>「杠精」来源：</strong>指那些不论别人说什么，都要抬杠反驳的人。「杠精」是「抬杠」的精简，反映了网络讨论中无意义的争论日益严重的现象。</p>
+   <p><strong>其他2018热词：</strong>「确认过眼神」(林俊杰歌词)、「C位出道」(创造101)、「家里有矿」、「燃烧我的卡路里」(火箭少女101)、「大猪蹄子」、「了解一下」、「Skr」(中国新说唱)、「冲鸭」。</p>`},
+
+  {era:4,year:2019,icon:"🍋",title:"我太难了 / 996 / 柠檬精 / 盘他",sub:"社畜觉醒与情绪释放",
+   tags:["工作","情绪","短视频"],
+   body:`<p><strong>「我太难了」来源：</strong>2019年，一位快手主播在视频中哭着说「我太难了，我最近压力很大」，配合《一剪梅》的背景音乐，说出了无数打工人的心声。缩写为「我太南了」(用「南」替代「难」)。</p>
+   <p><strong>「996」来源：</strong>指每天早上9点到晚上9点，每周工作6天。2019年3月，GitHub上出现「996.ICU」项目(工作996，生病ICU)，引发全网关于加班文化的讨论。马云回应「996是福报」更是激起了广泛争议。</p>
+   <p><strong>「柠檬精」来源：</strong>形容那些喜欢酸别人、嫉妒别人的人。「我柠檬了」「今天也是柠檬精」成为看到别人秀恩爱、秀成绩时的标准反应。</p>
+   <p><strong>「盘他」来源：</strong>出自相声《文玩》，「干巴巴的、麻麻赖赖的，一点都不圆润，盘他！」指把玩文玩核桃使其圆润。后被广泛用于「怼他」「治他」等含义。</p>
+   <p><strong>其他2019热词：</strong>「咱也不知道，咱也不敢问」、「雨女无瓜」(与你无关，《巴啦啦小魔仙》游乐王子的塑料普通话)、「好嗨哦，感觉人生到达了巅峰」、「上头」、「硬核」、「你怎么这个亚子」、「万物皆可盘」、「令人头秃」。</p>`},
+
+  // ===== ERA 5: Post-pandemic 2020-2023 =====
+  {era:5,year:2020,icon:"💼",title:"打工人 / 内卷 / 凡尔赛 / 爷青回",sub:"疫情下的集体情绪与自我解嘲",
+   tags:["疫情","社会","自嘲"],
+   body:`<p><strong>「打工人」来源：</strong>2020年9月，一系列「早安，打工人」的语录在网上疯传：「没有困难的工作，只有勇敢的打工人」「打工赚不了几个钱，但多打几份工就可以了」。这个词以自嘲的方式表达了普通劳动者的身份认同。</p>
+   <p><strong>「内卷」来源：</strong>原为人类学概念(involution)，指在资源有限的情况下，竞争者不断增加投入却无法提高整体效率的现象。2020年一张清华学生边骑车边用电脑学习的照片引爆了「内卷」话题。</p>
+   <p><strong>「凡尔赛」/「凡尔赛文学」来源：</strong>源自微博博主「小奶球」，她用「凡尔赛」来形容那些用看似自谦实则炫耀的方式说话的人。经典案例：「老公竟然送了我一辆粉红色的兰博基尼，可是颜色也太直男了吧！」</p>
+   <p><strong>「爷青回」来源：</strong>「爷的青春回来了」的缩写，在B站弹幕中大量出现。当经典作品重制、老歌翻唱、经典IP续作出现时，弹幕就会被「爷青回」刷屏。</p>
+   <p><strong>其他2020热词：</strong>「后浪」(B站演讲)、「逆行者」(抗疫医护)、「耗子尾汁」(马保国：好自为之的谐音)、「秋天的第一杯奶茶」、「集美」(姐妹)、「奥利给」、「干饭人」、「尾款人」(双11)、「小丑竟是我自己」、「好家伙」。</p>`},
+
+  {era:5,year:2021,icon:"🛋️",title:"躺平 / 破防 / YYDS / 绝绝子",sub:"反内卷宣言与网络造词巅峰",
+   tags:["躺平","社会情绪","缩写"],
+   body:`<p><strong>「躺平」来源：</strong>2021年4月，百度贴吧一篇《躺平即是正义》的帖子走红，作者分享了自己两年不工作、低欲望生活的方式。「躺平」迅速成为对抗「内卷」的旗帜性口号，引发了社会各界的广泛讨论。</p>
+   <p><strong>「破防」来源：</strong>源自游戏术语(破坏防御)，后引申为情感上被触动、防线被击破。看到感人的故事、戳心的话、或者扎心的评论，都可以说「破防了」。</p>
+   <p><strong>「YYDS」来源：</strong>「永远的神」的拼音首字母缩写，用来表达对某人或某物的极度赞美。最早出现在电竞圈，后泛化到各个领域。</p>
+   <p><strong>「绝绝子」来源：</strong>源自选秀节目粉丝圈，用于表达极度赞赏或极度无语(视语境而定)。「绝绝子」是「绝了」的加强版。</p>
+   <p><strong>其他2021热词：</strong>「社死」(社会性死亡，指极度尴尬)、「元宇宙」、「伤害性不高但侮辱性极强」、「我看不懂，但我大受震撼」(李安表情包)、「甩锅」。</p>`},
+
+  {era:5,year:2022,icon:"🙏",title:"栓Q / 退退退 / 雪糕刺客 / 电子榨菜",sub:"疫情生活与互联网黑色幽默",
+   tags:["疫情","生活","幽默"],
+   body:`<p><strong>「栓Q」来源：</strong>广西桂林网红刘涛(抖音名teacher liu)自学英语后拍摄的视频中，以独特口音说「Thank you」，听起来像「栓Q」。配上魔性的《Row Row Row Your Boat》，迅速洗脑全网。后与「我真的会谢」融合为「我真的栓Q」，表达无语和厌烦。</p>
+   <p><strong>「退！退！退！」来源：</strong>一段吵架视频中，一位大妈面对质问不正面回应，而是边跺脚边做击剑动作大喊「退！退！退！」。这种「魔法攻击」充满喜剧效果，被用来驱赶霉运。</p>
+   <p><strong>「雪糕刺客」来源：</strong>指那些外表普通但不明码标价、结账时价格惊人的雪糕。2022年夏天，大量网友分享被雪糕「刺客」偷袭的经历，衍生出「水果刺客」「文具刺客」等。</p>
+   <p><strong>「电子榨菜」来源：</strong>指吃饭时用来「下饭」的视频、剧集或音频内容。就像榨菜配饭一样，这些内容让吃饭变得更香。</p>
+   <p><strong>其他2022热词：</strong>「PUA/CPU/KTV/PPT/ICU」(演员许娣口误引发的造句)、「大冤种」、「小镇做题家」、「嘴替」、「你是我的神」(海清名场面)、「老六」、「一种很新的XX」、「婉拒了哈」、「科技与狠活」、「孤勇者」(陈奕迅，年度最火儿歌)、「王宝钏挖野菜」(恋爱脑警告)。</p>`},
+
+  {era:5,year:2023,icon:"🎒",title:"泰裤辣 / 特种兵旅游 / 显眼包 / 多巴胺穿搭",sub:"后疫情释放与情绪消费",
+   tags:["旅行","时尚","情绪"],
+   body:`<p><strong>「泰裤辣」来源：</strong>歌手小鬼(王琳凯)在演出中说出「太酷啦」，因其独特的发音变成了「泰裤辣」，成为2023年最火的口头禅之一，用于各种表达「酷」的场景。</p>
+   <p><strong>「特种兵旅游」来源：</strong>疫情解封后，年轻人用最少的时间和金钱完成最大密度的旅行——一天之内打卡十几个景点，被称为「特种兵式旅游」。反映了被压抑三年的出行欲望。</p>
+   <p><strong>「显眼包」来源：</strong>指那些在人群中格外引人注目、行为出格的人。可以是褒义(有趣的人)也可以是贬义(爱出风头的人)。</p>
+   <p><strong>「多巴胺穿搭」来源：</strong>2023年夏天流行的一种穿搭风格，使用高饱和度、明亮鲜艳的颜色搭配，旨在通过视觉刺激让大脑分泌多巴胺，产生快乐感。</p>
+   <p><strong>其他2023热词：</strong>「命运的齿轮开始转动」、「家人们谁懂啊」、「哈基米」(可爱的猫咪)、「电子榨菜」、「尊嘟假嘟」(真的假的，卖萌版)、「遥遥领先」(华为)、「挖呀挖呀挖」、「公主/王子请XX」、「你人还怪好的嘞」、「孔乙己文学」(学历焦虑)、「XX门」(麦当劳门→麦门)。</p>`},
+
+  // ===== ERA 6: AI 2024-2025 =====
+  {era:6,year:2024,icon:"🎭",title:"偷感很重 / 草台班子 / 班味 / City不City",sub:"打工人的集体自嘲与解构",
+   tags:["职场","身份","社交"],
+   body:`<p><strong>「偷感很重」来源：</strong>形容一个人做某件事时总是偷偷摸摸、生怕被人发现的感觉。比如偷偷健身、偷偷学习、偷偷减肥，都有一种「偷感」。2024年成为年度热词，反映了当代人在社交压力下对私密空间的渴望。</p>
+   <p><strong>「世界是一个巨大的草台班子」来源：</strong>2024年初在社交媒体上广泛传播，表达了一种对世界运转方式的祛魅认知——那些看似高大上的机构、公司和系统，其实都是由一群临时凑合的人勉强维持的。</p>
+   <p><strong>「班味」来源：</strong>指一个人身上散发出的「上班人的气质」，表现为疲惫、麻木、对一切失去热情。2024年入选三大权威榜单。</p>
+   <p><strong>「City不City」来源：</strong>一位外国博主在中国旅游时不断用「City不City」来形容城市的繁华程度，其魔性的中英混搭引发了全网模仿。</p>
+   <p><strong>其他2024热词：</strong>「那咋了」、「就这么水灵灵地XX」、「古希腊掌管XX的神」、「包的」、「红温」(源自游戏，形容情绪激动)、「被资本做局了」、「小孩哥/小孩姐」、「Chiikawa」(电子布洛芬)。</p>`},
+
+  {era:6,year:2025,icon:"🐧",title:"高雅人士 / 邪修 / 魔丸灵珠 / 主理人",sub:"AI时代的文化再造与圈层融合",
+   tags:["AI","文化","身份认同"],
+   body:`<p><strong>「高雅人士」来源：</strong>一套海外3D素材库中圆胖的企鹅形象被国内博主用AI赋予魔性舞步，配上王菲的《但愿人长久》和「高雅人士视察中」的文案走红。这个反差萌(圆胖企鹅=高雅人士)暗含「在情绪临近崩溃时仍努力维持外在得体」的意味。</p>
+   <p><strong>「邪修」来源：</strong>源自修仙小说，指不走寻常路的修炼方式。2025年被广泛用于形容那些离谱但高效的「野路子」方法：「邪修做饭」「邪修减肥」「邪修抢票」。反映了在压力下渴望高效破局的心态。</p>
+   <p><strong>「魔丸&灵珠」来源：</strong>出自2019年电影《哪吒之魔童降世》，2025年续作《哪吒之魔童闹海》热映后破圈。「魔丸」喻指叛逆不羁的一面，「灵珠」对应乖巧理性的一面。</p>
+   <p><strong>「主理人」来源：</strong>原指潮牌经营者，2025年因过度泛化(连煎饼摊老板都自称主理人)而引发广泛调侃，成为「万物皆可主理」的讽刺对象。</p>
+   <p><strong>其他2025热词：</strong>「做完你的做你的」(景德镇鸡排主理人名场面)、「误闯天家」(古风歌词，指误入高门槛场景)、「XX基础，XX不基础」(百搭反差句式)、「从从容容游刃有余，匆匆忙忙连滚带爬」(台湾政治人物语录改编歌曲)、「如何呢又能怎」、「敬自己一杯」、「情绪价值」、「DeepSeek/深度求索」、「来财」(《八方来财》)、「浪浪山小妖怪」、「谷子」(周边商品，源自Goods)、「预制XX」、「活人感」、「爱你老己」、「外耗」(与内耗对立)、「丝瓜汤文学」(长辈强行关爱)。</p>`},
+
+  // ===== ERA 7: 2026 =====
+  {era:7,year:2026,icon:"✨",title:"我去不早说 / 我的身材很曼妙",sub:"新的梗正在诞生中…",
+   tags:["2026","进行中","新梗"],
+   body:`<p><strong>「我去不早说」来源：</strong>2026年初在社交媒体和短视频评论区广泛传播。看似懊恼，实则是讽刺对方说的信息人尽皆知，假装因此导致自己「错过机会」。</p>
+   <p><strong>「不知道，我的身材很曼妙」来源：</strong>源自淘宝商品「问买家」栏中的无厘头神回复，被截图传播后成为一种自恋式搞笑发言的代表。</p>
+   <p><strong>2026年互联网仍在高速迭代中：</strong>每一个新的热点事件、每一部新的影视作品、每一个新的社会现象，都在催生新的梗。从BBS到AI，从文字到视频，造梗的方式在变，但人们对幽默和共鸣的追求从未改变。</p>
+   <p><strong>圆头耄耋（猫爹）：</strong>2024年末至2026年持续流行的谐音梗，指脑袋圆润、脾气暴躁的猫咪。「耄耋」谐音「猫爹」，赋予猫咪「难以驯服的家长式威严」。</p>`},
+];
+
+/* ===== Utility: HTML-escape attribute values ===== */
+function escAttr(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ===== Render ===== */
+function render() {
+  var content = document.getElementById('content');
+  var html = '';
+
+  // Sort memes
+  var sorted = MEMES.slice().sort(function(a,b) {
+    return a.era !== b.era ? a.era - b.era : a.year - b.year;
+  });
+
+  // Group by era → year
+  var eraMap = {};
+  sorted.forEach(function(m) {
+    if (!eraMap[m.era]) eraMap[m.era] = {};
+    if (!eraMap[m.era][m.year]) eraMap[m.era][m.year] = [];
+    eraMap[m.era][m.year].push(m);
+  });
+
+  var eraIds = Object.keys(eraMap).map(Number).sort(function(a,b){return a-b;});
+
+  eraIds.forEach(function(eraId) {
+    var era = ERAS.find(function(e){return e.id===eraId;});
+    if (!era) return;
+
+    html += '<div class="era-section" data-era="'+eraId+'" style="--era-color:'+era.color+'">';
+    html += '<div class="era-header">';
+    html += '<div class="era-label">'+escAttr(era.sub)+'</div>';
+    html += '<h2 class="era-title">'+era.name+'</h2>';
+    html += '<p class="era-desc">'+era.desc+'</p>';
+    html += '</div>';
+
+    var years = Object.keys(eraMap[eraId]).map(Number).sort(function(a,b){return a-b;});
+    years.forEach(function(yr) {
+      var cards = eraMap[eraId][yr];
+      html += '<div class="year-group" data-year="'+yr+'">';
+      html += '<div class="year-row">';
+      html += '<div class="year-badge">'+yr+'</div>';
+      html += '<button class="expand-all" onclick="toggleYearCards(this)">展开全部 ▾</button>';
+      html += '</div>';
+
+      cards.forEach(function(m) {
+        var searchData = escAttr([m.title,m.sub,(m.tags||[]).join(' '),m.year].join(' '));
+        html += '<div class="meme-card fade-in" data-search="'+searchData+'">';
+        html += '<div class="meme-head" onclick="toggleCard(this.parentNode)">';
+        html += '<div class="meme-icon">'+m.icon+'</div>';
+        html += '<div class="meme-title-wrap">';
+        html += '<div class="meme-title">'+escAttr(m.title)+'</div>';
+        html += '<div class="meme-sub">'+escAttr(m.sub)+'</div>';
+        html += '</div>';
+        html += '<div class="meme-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>';
+        html += '</div>';
+        html += '<div class="meme-body"><div class="meme-content">';
+        html += m.body;
+        html += '<div style="margin-top:.8rem">';
+        (m.tags||[]).forEach(function(t) {
+          html += '<span class="meme-tag">#'+escAttr(t)+'</span>';
+        });
+        html += '</div></div></div></div>';
+      });
+
+      html += '</div>'; // close year-group
+    });
+
+    html += '</div>'; // close era-section
+  });
+
+  content.innerHTML = html;
+  document.getElementById('totalCount').textContent = MEMES.length + '+';
+  updateVisibleCount();
+  observeCards();
+}
+
+/* ===== Toggle Card ===== */
+function toggleCard(card) {
+  card.classList.toggle('open');
+  // Sync the "expand all" button text for this year-group
+  var yg = card.closest('.year-group');
+  if (yg) syncExpandBtn(yg);
+}
+
+/* ===== Toggle Year Cards ===== */
+function toggleYearCards(btn) {
+  var yg = btn.closest('.year-group');
+  if (!yg) return;
+  var cards = yg.querySelectorAll('.meme-card');
+  if (!cards.length) return;
+
+  // Check if majority are open
+  var openCount = 0;
+  cards.forEach(function(c) { if (c.classList.contains('open')) openCount++; });
+  var shouldOpen = openCount < cards.length; // open if not all open
+
+  cards.forEach(function(c) {
+    if (shouldOpen) c.classList.add('open');
+    else c.classList.remove('open');
+  });
+
+  btn.textContent = shouldOpen ? '收起全部 ▴' : '展开全部 ▾';
+}
+
+/* ===== Sync Expand Button ===== */
+function syncExpandBtn(yg) {
+  var btn = yg.querySelector('.expand-all');
+  if (!btn) return;
+  var cards = yg.querySelectorAll('.meme-card');
+  var allOpen = true;
+  cards.forEach(function(c) { if (!c.classList.contains('open')) allOpen = false; });
+  btn.textContent = allOpen ? '收起全部 ▴' : '展开全部 ▾';
+}
+
+/* ===== Search ===== */
+var searchTimeout;
+document.getElementById('searchInput').addEventListener('input', function() {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(filterContent, 200);
+});
+
+/* ===== Era Tabs ===== */
+document.getElementById('eraTabs').addEventListener('click', function(e) {
+  var tab = e.target.closest('.era-tab');
+  if (!tab) return;
+  document.querySelectorAll('.era-tab').forEach(function(t){t.classList.remove('active');});
+  tab.classList.add('active');
+  filterContent();
+});
+
+/* ===== Filter ===== */
+function filterContent() {
+  var query = document.getElementById('searchInput').value.trim().toLowerCase();
+  var activeTab = document.querySelector('.era-tab.active');
+  var activeEra = activeTab ? activeTab.dataset.era : 'all';
+
+  var sections = document.querySelectorAll('.era-section');
+  var visibleTotal = 0;
+
+  sections.forEach(function(section) {
+    var eraId = section.dataset.era;
+    var eraMatch = (activeEra === 'all' || eraId === activeEra);
+
+    if (!eraMatch) {
+      section.style.display = 'none';
+      return;
+    }
+
+    var eraVisible = false;
+    var yearGroups = section.querySelectorAll('.year-group');
+
+    yearGroups.forEach(function(yg) {
+      var ygVisible = false;
+      var cards = yg.querySelectorAll('.meme-card');
+
+      cards.forEach(function(card) {
+        var text = (card.dataset.search || '').toLowerCase();
+        var match = !query || text.indexOf(query) !== -1;
+        card.style.display = match ? '' : 'none';
+        card.classList.remove('highlight');
+        if (match) {
+          ygVisible = true;
+          visibleTotal++;
+          if (query) card.classList.add('highlight');
+        }
+      });
+
+      yg.style.display = ygVisible ? '' : 'none';
+      if (ygVisible) eraVisible = true;
+    });
+
+    section.style.display = eraVisible ? '' : 'none';
+  });
+
+  document.getElementById('noResults').classList.toggle('show', visibleTotal === 0);
+  document.getElementById('counterBar').style.display = visibleTotal === 0 ? 'none' : '';
+  document.getElementById('visibleCount').textContent = visibleTotal;
+
+  // Re-trigger fade-in for newly visible cards
+  reobserveCards();
+}
+
+/* ===== Update Counter ===== */
+function updateVisibleCount() {
+  var cards = document.querySelectorAll('.meme-card');
+  document.getElementById('visibleCount').textContent = cards.length;
+}
+
+/* ===== Intersection Observer ===== */
+var observer;
+function observeCards() {
+  if (observer) observer.disconnect();
+  observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold:0.05, rootMargin:'80px' });
+
+  document.querySelectorAll('.fade-in:not(.visible)').forEach(function(el) {
+    observer.observe(el);
+  });
+}
+
+function reobserveCards() {
+  // Make hidden-then-shown cards animate again
+  if (!observer) return;
+  document.querySelectorAll('.fade-in').forEach(function(el) {
+    if (el.style.display !== 'none' && !el.classList.contains('visible')) {
+      observer.observe(el);
+    }
+  });
+}
+
+/* ===== Back to Top ===== */
+var btt = document.getElementById('btt');
+btt.addEventListener('click', function() {
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+window.addEventListener('scroll', function() {
+  btt.classList.toggle('show', window.scrollY > 600);
+}, {passive:true});
+
+/* ===== Init ===== */
+render();
+</script>
+</body>
+</html>
