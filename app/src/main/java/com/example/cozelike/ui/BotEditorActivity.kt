@@ -41,6 +41,9 @@ class BotEditorActivity : AppCompatActivity() {
             this, android.R.layout.simple_spinner_item, models
         ).apply { setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
 
+        binding.tempSlider.valueFrom = 0f
+        binding.tempSlider.valueTo = 2f
+        binding.tempSlider.stepSize = 0.1f
         binding.tempSlider.value = 0.7f
         binding.tempSlider.addOnChangeListener { _, value, _ ->
             binding.tempValue.text = String.format("%.2f", value)
