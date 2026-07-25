@@ -33,10 +33,10 @@ jobs:
           wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
           unzip -q commandlinetools-linux-11076708_latest.zip -d "$ANDROID_HOME/cmdline-tools"
           mv "$ANDROID_HOME/cmdline-tools/cmdline-tools" "$ANDROID_HOME/cmdline-tools/latest"
-          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
-          echo "ANDROID_HOME=$ANDROID_HOME" >> "$GITHUB_ENV"
+          export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
           yes | sdkmanager --licenses
           sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
+          echo "ANDROID_HOME=$ANDROID_HOME" >> "$GITHUB_ENV"
 
       - name: Build Debug APK
         run: gradle assembleDebug --no-daemon
