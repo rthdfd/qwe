@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#4F46E5</color>
+    <color name="primary_dark">#3730A3</color>
+    <color name="secondary">#06B6D4</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="ic_launcher_background">#4F46E5</color>
+    <color name="bubble_bot_bg">#E9E9EC</color>
+    <color name="text_secondary">#666666</color>
+</resources>
