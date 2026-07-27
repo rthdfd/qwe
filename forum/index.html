@@ -6,208 +6,215 @@
   <title>校友论坛</title>
   <style>
     :root {
-      --primary: #1f6feb;
-      --primary-dark: #1453b8;
-      --bg: #f2f3f5;
+      --bg: #f5f6fb;
       --card: #ffffff;
-      --border: #e3e5e8;
-      --text: #1f2329;
-      --muted: #8a8f99;
-      --accent: #12b886;
-      --maxw: 1100px;
+      --primary: #4f46e5;
+      --primary-2: #7c6cf0;
+      --primary-soft: #eef0ff;
+      --text: #1f2430;
+      --muted: #8b93a7;
+      --border: #eceef3;
+      --green: #16b981;
+      --radius: 16px;
+      --shadow: 0 4px 20px rgba(25, 33, 70, 0.06);
+      --maxw: 1200px;
     }
     * { box-sizing: border-box; }
+    html, body { margin: 0; }
     body {
-      margin: 0; font-family: "PingFang SC","Microsoft YaHei","Hiragino Sans GB",Arial,sans-serif;
-      font-size: 14px; color: var(--text); background: var(--bg); line-height: 1.6;
+      font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 14px; color: var(--text); background: var(--bg); line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
     }
-    a { color: var(--primary); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .link-strong { color: var(--primary); font-weight: 600; }
-    .link-muted { color: var(--muted); }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
 
-    .topbar { background: #eef1f5; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--muted); }
-    .topbar-inner { max-width: var(--maxw); margin: 0 auto; padding: 4px 12px; display: flex; justify-content: space-between; }
+    /* 顶栏 */
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255,255,255,0.78); backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner { max-width: var(--maxw); margin: 0 auto; padding: 10px 18px; display: flex; align-items: center; gap: 18px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; letter-spacing: .5px; }
+    .brand-mark {
+      width: 36px; height: 36px; border-radius: 11px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #fff; display: grid; place-items: center; font-size: 18px; font-weight: 800;
+      box-shadow: 0 6px 16px rgba(79,70,229,.35);
+    }
+    .search { flex: 1; max-width: 460px; display: flex; background: #f1f2f8; border: 1px solid transparent; border-radius: 12px; padding: 4px 6px 4px 12px; }
+    .search input { flex: 1; border: 0; background: transparent; outline: none; font-size: 14px; }
+    .search button { border: 0; background: var(--primary); color: #fff; border-radius: 9px; padding: 7px 16px; font-weight: 600; }
+    .nav { display: flex; gap: 4px; }
+    .nav a { padding: 8px 14px; border-radius: 10px; color: var(--muted); font-weight: 600; }
+    .nav a:hover, .nav a.active { color: var(--primary); background: var(--primary-soft); }
+    .auth { display: flex; gap: 8px; }
+    .btn-ghost { border: 1px solid var(--border); background: #fff; color: var(--text); border-radius: 10px; padding: 8px 16px; font-weight: 600; }
+    .btn-primary { border: 0; background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: #fff; border-radius: 10px; padding: 8px 18px; font-weight: 700; box-shadow: 0 6px 16px rgba(79,70,229,.3); }
 
-    .site-header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; }
-    .site-header-inner { max-width: var(--maxw); margin: 0 auto; padding: 18px 12px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-    .logo { display: flex; align-items: center; gap: 12px; }
-    .logo-mark { width: 44px; height: 44px; border-radius: 10px; background: rgba(255,255,255,.18); display: grid; place-items: center; font-size: 24px; font-weight: 700; }
-    .logo-text { font-size: 26px; font-weight: 700; letter-spacing: 2px; }
+    /* 布局 */
+    .container { max-width: var(--maxw); margin: 22px auto; padding: 0 18px; display: grid; grid-template-columns: 220px 1fr 310px; gap: 20px; align-items: start; }
+    .side { position: sticky; top: 84px; display: flex; flex-direction: column; gap: 16px; }
+    .panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; }
+    .panel-title { font-size: 13px; font-weight: 800; color: var(--muted); letter-spacing: .5px; margin: 0 0 12px; text-transform: uppercase; }
 
-    .login-box table { border-collapse: separate; border-spacing: 8px; }
-    .login-box input[type="text"], .login-box input[type="password"] { padding: 6px 10px; border: 1px solid #cfd6e4; border-radius: 6px; outline: none; }
-    .login-actions { white-space: nowrap; }
+    /* 圈子导航 */
+    .circle { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px; transition: .15s; cursor: pointer; }
+    .circle:hover { background: var(--primary-soft); }
+    .circle .ic { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; font-size: 18px; background: linear-gradient(135deg,#eef0ff,#e3e9ff); }
+    .circle .nm { font-weight: 700; }
+    .circle .mt { font-size: 12px; color: var(--muted); }
 
-    .btn { display: inline-block; padding: 6px 16px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; font-size: 13px; }
-    .btn-primary { background: #fff; color: var(--primary-dark); font-weight: 600; }
-    .btn-primary:hover { background: #eef3ff; text-decoration: none; }
-    .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.6); }
-    .btn-ghost:hover { background: rgba(255,255,255,.12); text-decoration: none; }
-    .btn-solid { background: var(--primary); color: #fff; }
-    .btn-solid:hover { background: var(--primary-dark); text-decoration: none; }
+    /* 信息流 */
+    .composer { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
+    .composer input { flex: 1; border: 0; background: #f1f2f8; border-radius: 12px; padding: 12px 16px; outline: none; font-size: 14px; }
+    .post { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; margin-bottom: 14px; transition: .15s; }
+    .post:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(25,33,70,.10); }
+    .post-head { display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 18px; flex: none; }
+    .post-head .nm { font-weight: 700; }
+    .post-head .mt { font-size: 12px; color: var(--muted); }
+    .tag { font-size: 11px; font-weight: 700; color: var(--primary); background: var(--primary-soft); padding: 2px 9px; border-radius: 999px; margin-left: 8px; }
+    .post .ttl { font-size: 17px; font-weight: 800; margin: 12px 0 6px; }
+    .post .excerpt { color: #454c5e; }
+    .post-actions { display: flex; gap: 18px; margin-top: 12px; color: var(--muted); font-size: 13px; font-weight: 600; }
+    .post-actions span { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+    .post-actions span:hover { color: var(--primary); }
 
-    .main-nav { background: #fff; border-bottom: 2px solid var(--primary); }
-    .main-nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-    .nav-links { list-style: none; display: flex; margin: 0; padding: 0; }
-    .nav-links li a { display: block; padding: 12px 16px; color: var(--text); font-weight: 600; }
-    .nav-links li a:hover { background: #f5f7fb; text-decoration: none; color: var(--primary); }
-    .nav-search { display: flex; align-items: center; gap: 8px; padding: 8px 0; flex-wrap: wrap; }
-    .nav-search input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; outline: none; min-width: 180px; }
-    .nav-search .hot { font-size: 12px; color: var(--muted); }
-    .nav-search .hot a { margin: 0 4px; }
+    .stats { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+    .chip { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 8px 14px; box-shadow: var(--shadow); font-size: 13px; color: var(--muted); }
+    .chip b { color: var(--text); margin-right: 4px; }
 
-    .announcement { max-width: var(--maxw); margin: 12px auto 0; padding: 8px 12px; background: #fff7e6; border: 1px solid #ffe2a8; border-radius: 6px; font-size: 13px; }
-    .ann-tag { display: inline-block; background: var(--accent); color: #fff; padding: 1px 8px; border-radius: 4px; margin-right: 8px; font-size: 12px; }
-    .stats { max-width: var(--maxw); margin: 8px auto 0; padding: 6px 12px; font-size: 12px; color: var(--muted); }
+    /* 板块卡片 */
+    .board-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 14px; }
+    .board-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; transition: .15s; cursor: pointer; }
+    .board-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(25,33,70,.12); }
+    .board-card .ic { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; font-size: 22px; background: linear-gradient(135deg,#eef0ff,#e3e9ff); margin-bottom: 12px; }
+    .board-card .nm { font-weight: 800; font-size: 16px; }
+    .board-card .ds { font-size: 13px; color: var(--muted); margin: 6px 0 12px; }
+    .board-card .meta { font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; }
 
-    .container { max-width: var(--maxw); margin: 12px auto 28px; padding: 0 12px; }
+    /* 右栏 */
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag-pill { background: var(--primary-soft); color: var(--primary); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .member { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+    .member .avatar { width: 36px; height: 36px; font-size: 15px; }
+    .mini-list li { padding: 9px 0; border-bottom: 1px dashed var(--border); list-style: none; font-size: 13px; }
+    .mini-list { margin: 0; padding: 0; }
+    .mini-list li:last-child { border-bottom: 0; }
 
-    .home-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
-    @media (min-width: 860px) { .home-grid { grid-template-columns: 2fr 1fr; } }
-
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-    .card-head { background: #f7f9fc; padding: 10px 14px; font-weight: 700; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    .card-head .more { font-size: 12px; font-weight: 400; color: var(--muted); }
-    .card-body { padding: 12px 14px; }
-
-    .forum-group { margin-bottom: 16px; }
-    .forum-group .group-title { font-size: 16px; font-weight: 700; margin: 6px 2px 10px; padding-left: 10px; border-left: 4px solid var(--primary); }
-    .board-row { display: grid; grid-template-columns: 56px 1fr auto; gap: 12px; align-items: center; padding: 14px; border-bottom: 1px solid var(--border); }
-    .board-row:last-child { border-bottom: none; }
-    .board-icon { width: 56px; height: 56px; border-radius: 10px; background: linear-gradient(135deg, #e8f0ff, #d6e4ff); display: grid; place-items: center; font-size: 22px; color: var(--primary); }
-    .board-main .board-name { font-size: 15px; font-weight: 700; }
-    .board-main .board-meta { font-size: 12px; color: var(--muted); }
-    .board-stat { text-align: right; font-size: 12px; color: var(--muted); }
-    .board-stat b { color: var(--text); }
-
-    .list { list-style: none; margin: 0; padding: 0; }
-    .list li { padding: 9px 4px; border-bottom: 1px dashed var(--border); display: flex; justify-content: space-between; gap: 10px; }
-    .list li:last-child { border-bottom: none; }
-    .list .title { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .list .meta { font-size: 12px; color: var(--muted); white-space: nowrap; }
-    .dot { color: var(--accent); margin-right: 6px; }
-
-    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .gallery .ph { aspect-ratio: 4/3; border-radius: 6px; background: linear-gradient(135deg, #dfe7f5, #c9d8f0); display: grid; place-items: center; color: var(--muted); font-size: 12px; }
-
-    .online-legend { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
-    .online-legend span { margin-right: 12px; }
-    .online-list { display: flex; flex-wrap: wrap; gap: 8px; }
-    .online-user { font-size: 13px; background: #f3f6fb; border: 1px solid var(--border); border-radius: 20px; padding: 3px 12px; }
-
-    .breadcrumb { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
-    .breadcrumb a { color: var(--muted); }
-    .thread-item { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 14px; border-bottom: 1px solid var(--border); align-items: center; }
-    .thread-item:last-child { border-bottom: none; }
-    .thread-item .t-title { font-size: 15px; font-weight: 600; }
-    .thread-item .t-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
-    .thread-item .t-stat { text-align: right; font-size: 12px; color: var(--muted); }
-    .pagination { margin-top: 14px; text-align: center; }
-    .pagination a { display: inline-block; padding: 4px 10px; border: 1px solid var(--border); border-radius: 6px; margin: 0 3px; }
-
-    .post { display: grid; grid-template-columns: 140px 1fr; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 12px; }
-    .post .author { background: #f7f9fc; padding: 14px; border-right: 1px solid var(--border); text-align: center; }
-    .post .author .avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #e8f0ff, #d6e4ff); margin: 0 auto 8px; display: grid; place-items: center; color: var(--primary); font-size: 22px; font-weight: 700; }
-    .post .author .name { font-weight: 700; }
-    .post .author .role { font-size: 12px; color: var(--accent); }
-    .post .body { padding: 16px; }
-    .post .body .content { margin-top: 8px; line-height: 1.8; }
-    .post .body .time { font-size: 12px; color: var(--muted); margin-top: 10px; }
-    .reply-box { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
-    .reply-box textarea { width: 100%; min-height: 90px; border: 1px solid var(--border); border-radius: 6px; padding: 10px; outline: none; resize: vertical; font-family: inherit; }
+    /* 帖子详情 */
+    .reply { display: flex; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .reply:last-child { border-bottom: 0; }
+    .reply .body { flex: 1; }
+    .reply .body .nm { font-weight: 700; }
+    .reply .body .tm { font-size: 12px; color: var(--muted); margin-left: 8px; }
+    .reply-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; margin-top: 16px; }
+    .reply-box textarea { width: 100%; min-height: 90px; border: 1px solid var(--border); border-radius: 12px; padding: 12px; outline: none; resize: vertical; font-family: inherit; background: #fafbff; }
     .reply-box .row { margin-top: 10px; text-align: right; }
 
-    .auth-wrap { max-width: 420px; margin: 30px auto; }
-    .auth-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 26px; }
-    .auth-card h2 { margin: 0 0 16px; }
+    /* 登录弹窗 */
+    .modal-mask { position: fixed; inset: 0; background: rgba(20,26,50,.45); backdrop-filter: blur(4px); display: none; place-items: center; z-index: 100; }
+    .modal-mask.show { display: grid; }
+    .modal { width: 400px; max-width: 92vw; background: #fff; border-radius: 20px; padding: 26px; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+    .modal h2 { margin: 0 0 16px; }
     .field { margin-bottom: 14px; }
     .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
-    .field input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; outline: none; }
-    .auth-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-    .auth-tabs button { flex: 1; padding: 10px; border: 1px solid var(--border); background: #f7f9fc; border-radius: 6px; cursor: pointer; font-weight: 600; }
-    .auth-tabs button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .field input { width: 100%; padding: 11px 13px; border: 1px solid var(--border); border-radius: 11px; outline: none; background: #fafbff; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+    .tabs button { flex: 1; padding: 10px; border: 1px solid var(--border); background: #f7f8fc; border-radius: 11px; font-weight: 700; }
+    .tabs button.active { background: linear-gradient(135deg,var(--primary),var(--primary-2)); color: #fff; border-color: transparent; }
 
-    .site-footer { background: #fff; border-top: 1px solid var(--border); margin-top: 20px; }
-    .footer-inner { max-width: var(--maxw); margin: 0 auto; padding: 18px 12px; text-align: center; font-size: 12px; color: var(--muted); }
-    .footer-links a { margin: 0 6px; color: var(--muted); }
+    footer { border-top: 1px solid var(--border); margin-top: 30px; }
+    .footer-inner { max-width: var(--maxw); margin: 0 auto; padding: 22px 18px; text-align: center; font-size: 12px; color: var(--muted); }
+    .footer-inner a { color: var(--muted); margin: 0 6px; }
 
-    body.narrow .container, body.narrow .topbar-inner, body.narrow .site-header-inner,
-    body.narrow .main-nav-inner, body.narrow .announcement, body.narrow .stats, body.narrow .footer-inner { max-width: 760px; }
-    body.narrow .home-grid { grid-template-columns: 1fr; }
+    .banner { background: linear-gradient(135deg, var(--primary-soft), #f3effe); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 16px; font-size: 13px; display: flex; gap: 10px; align-items: center; }
+    .banner .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex: none; }
+
+    @media (max-width: 980px) {
+      .container { grid-template-columns: 1fr; }
+      .side { position: static; flex-direction: row; flex-wrap: wrap; }
+      .side .panel { flex: 1; min-width: 240px; }
+      .nav { display: none; }
+    }
   </style>
 </head>
 <body>
-  <div id="app">
-    <div class="topbar">
-      <div class="topbar-inner">
-        <span><a href="#" id="set-home">设为首页</a> | <a href="#" id="toggle-narrow">切换窄版</a></span>
-        <span>请 <a href="#/login" class="link-strong">登录</a> 后使用快捷导航 · 没有账号？<a href="#/login" class="link-strong">立即注册</a></span>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><span class="brand-mark">校</span><span>校友论坛</span></div>
+      <div class="search"><input id="search-input" placeholder="搜索话题、校友、回忆…" /><button id="search-btn">搜索</button></div>
+      <nav class="nav">
+        <a href="#/" class="active" data-nav>首页</a>
+        <a href="#/board/2" data-nav>板块</a>
+        <a href="#" data-nav>发现</a>
+        <a href="#" data-nav>关于</a>
+      </nav>
+      <div class="auth">
+        <button class="btn-ghost" onclick="location.hash='#/login'">登录</button>
+        <button class="btn-primary" onclick="location.hash='#/login'">注册</button>
       </div>
     </div>
+  </header>
 
-    <header class="site-header">
-      <div class="site-header-inner">
-        <div class="logo">
-          <span class="logo-mark">校</span>
-          <span class="logo-text">校友论坛</span>
-        </div>
-        <form class="login-box" onsubmit="return false;">
-          <table>
-            <tr>
-              <td><input type="text" placeholder="用户名" /></td>
-              <td><label><input type="checkbox" /> 自动登录</label></td>
-              <td class="login-actions">
-                <button type="submit" class="btn btn-primary">登录</button>
-                <a href="#/login" class="btn btn-ghost">立即注册</a>
-              </td>
-            </tr>
-            <tr>
-              <td><input type="password" placeholder="密码" /></td>
-              <td><a href="#" class="link-muted">找回密码</a></td>
-              <td></td>
-            </tr>
-          </table>
-        </form>
+  <div class="container">
+    <!-- 左：圈子导航 -->
+    <aside class="side">
+      <div class="panel">
+        <p class="panel-title">圈子</p>
+        <div id="circle-nav"></div>
       </div>
-    </header>
-
-    <nav class="main-nav">
-      <div class="main-nav-inner">
-        <ul class="nav-links">
-          <li><a href="#/">首页BBS</a></li>
-          <li><a href="#">县高中官网</a></li>
-          <li><a href="#">校庆公告</a></li>
-        </ul>
-        <div class="nav-search">
-          <input type="text" id="search-input" placeholder="搜索帖子…" />
-          <button class="btn btn-primary" id="search-btn">搜索</button>
-          <span class="hot">热搜：
-            <a href="#">活动</a> <a href="#">交友</a> <a href="#">母校</a> <a href="#">聚会</a>
-          </span>
+      <div class="panel">
+        <p class="panel-title">数据</p>
+        <div class="stats" style="margin:0">
+          <div class="chip"><b>3</b>今日</div>
+          <div class="chip"><b>22</b>帖子</div>
+          <div class="chip"><b>9</b>会员</div>
         </div>
       </div>
-    </nav>
+    </aside>
 
-    <div class="announcement">
-      <span class="ann-tag">公告</span>
-      <a href="#">欢迎来到校友论坛，缅怀青春、联络同窗、共叙校友情谊。</a>
+    <!-- 中：信息流 -->
+    <main id="feed"></main>
+
+    <!-- 右：热门/活跃 -->
+    <aside class="side">
+      <div class="panel">
+        <p class="panel-title">热门话题</p>
+        <div class="tag-list" id="hot-tags"></div>
+      </div>
+      <div class="panel">
+        <p class="panel-title">活跃校友</p>
+        <div id="active-members"></div>
+      </div>
+      <div class="panel">
+        <p class="panel-title">最新回复</p>
+        <ul class="mini-list" id="latest-replies"></ul>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <a href="#">关于我们</a> | <a href="#">校庆公告</a> | <a href="#/login">登录</a>
+      <div style="margin-top:8px">校友论坛 · 学生自发组建的校友交流社区</div>
     </div>
+  </footer>
 
-    <div class="stats">
-      今日: <b>3</b> | 昨日: <b>0</b> | 帖子: <b>22</b> | 会员: <b>9</b> | 欢迎新会员: <b>350234</b>
+  <!-- 登录/注册弹窗 -->
+  <div class="modal-mask" id="modal">
+    <div class="modal">
+      <div class="tabs"><button id="tab-login" class="active">登录</button><button id="tab-reg">注册</button></div>
+      <h2 id="auth-title">登录校友论坛</h2>
+      <div class="field"><label>用户名</label><input type="text" placeholder="请输入用户名" /></div>
+      <div class="field"><label>密码</label><input type="password" placeholder="请输入密码" /></div>
+      <div class="field" id="reg-extra" style="display:none"><label>邮箱</label><input type="text" placeholder="请输入邮箱" /></div>
+      <button class="btn-primary" style="width:100%;padding:11px">提交</button>
+      <p style="font-size:12px;color:var(--muted);margin-top:12px;text-align:center">壳子演示：外观已完成，暂不接入后端。</p>
+      <div style="text-align:center;margin-top:10px"><a href="#" id="close-modal" style="color:var(--muted);font-size:13px">关闭</a></div>
     </div>
-
-    <main id="view" class="container"></main>
-
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <div class="footer-links">
-          <a href="#">手机版</a> | <a href="#">小黑屋</a> | <a href="#/login">登录</a> | <a href="#top">返回顶部</a>
-        </div>
-        <div class="footer-copy">校友论坛 · 仅供校友交流使用 · Powered by 校友论坛 Shell</div>
-      </div>
-    </footer>
   </div>
 
   <script>
@@ -216,218 +223,167 @@
     var DATA = {
       groups: [
         { name: "校友论坛", boards: [
-          { id: 2, name: "校友交流", icon: "💬", threads: 3, posts: 5, last: "10 分钟前" },
-          { id: 5, name: "难忘恩师", icon: "📚", threads: 1, posts: 1, last: "2026-1-22 15:30" },
-          { id: 6, name: "校园记忆", icon: "🏫", threads: 7, posts: 8, last: "2026-7-15 16:25" }
+          { id: 2, name: "校友交流", icon: "💬", desc: "聊聊近况、工作、生活", threads: 3, posts: 5, last: "10 分钟前" },
+          { id: 5, name: "难忘恩师", icon: "📚", desc: "感恩当年授业解惑的老师", threads: 1, posts: 1, last: "2026-1-22" },
+          { id: 6, name: "校园记忆", icon: "🏫", desc: "老照片、老故事、老操场", threads: 7, posts: 8, last: "2026-7-15" }
         ]},
         { name: "论坛事务", boards: [
-          { id: 4, name: "站务公告", icon: "📢", threads: 3, posts: 3, last: "2026-7-15 16:20" },
-          { id: 7, name: "站务管理", icon: "🛠", threads: 4, posts: 5, last: "2026-5-29 16:30" }
+          { id: 4, name: "站务公告", icon: "📢", desc: "社区公告与须知", threads: 3, posts: 3, last: "2026-7-15" },
+          { id: 7, name: "站务管理", icon: "🛠", desc: "建议与反馈", threads: 4, posts: 5, last: "2026-5-29" }
         ]}
       ],
-      latestThreads: [
-        { id: 18, title: "aaa", author: "350234", time: "10 分钟前", replies: 0 },
-        { id: 17, title: "111", author: "350234", time: "1 小时前", replies: 2 },
-        { id: 16, title: "推荐文章一篇：一段珍贵的友谊……", author: "虫二", time: "昨天", replies: 5 },
-        { id: 15, title: "免责声明", author: "管理员", time: "前天", replies: 1 },
-        { id: 14, title: "推荐文章一篇：母校情深……", author: "校友", time: "3 天前", replies: 3 },
-        { id: 13, title: "网站定位与声明", author: "管理员", time: "上周", replies: 0 },
-        { id: 12, title: "1993 年理科复习班毕业的学生想你……", author: "老校友", time: "上周", replies: 4 },
-        { id: 11, title: "我来报道了。", author: "新人", time: "上周", replies: 2 },
-        { id: 10, title: "欢迎虫二加入！", author: "管理员", time: "上周", replies: 1 },
-        { id: 9, title: "扶沟县高中旧址老操场 2013 年 3 月……", author: "摄影组", time: "上月", replies: 6 }
+      threads: [
+        { id: 18, title: "aaa", author: "350234", time: "10 分钟前", tag: "校友交流", excerpt: "这是第一帖，欢迎大家来校友交流板块聊聊近况～", likes: 2, comments: 0 },
+        { id: 17, title: "111", author: "350234", time: "1 小时前", tag: "校友交流", excerpt: "测试一下发帖功能。", likes: 5, comments: 2 },
+        { id: 16, title: "推荐文章一篇：一段珍贵的友谊……", author: "虫二", time: "昨天", tag: "校园记忆", excerpt: "毕业多年，最难忘的还是和同窗在操场散步的傍晚……", likes: 18, comments: 5 },
+        { id: 15, title: "免责声明", author: "管理员", time: "前天", tag: "站务公告", excerpt: "社区内容仅供校友交流，免责声明如下……", likes: 3, comments: 1 },
+        { id: 14, title: "推荐文章一篇：母校情深……", author: "校友", time: "3 天前", tag: "校园记忆", excerpt: "母校的一草一木都让人怀念。", likes: 12, comments: 3 },
+        { id: 12, title: "1993 年理科复习班毕业的学生想你……", author: "老校友", time: "上周", tag: "校友交流", excerpt: "转眼三十年，当年的同学你们还好吗？", likes: 22, comments: 4 },
+        { id: 11, title: "我来报道了。", author: "新人", time: "上周", tag: "校友交流", excerpt: "新校友报到，请多关照！", likes: 8, comments: 2 }
+      ],
+      hot: ["珍贵的友谊", "1993 级理科班", "校园记忆", "老操场", "母校情深", "聚会召集"],
+      members: [
+        { name: "350234", role: "会员" }, { name: "vip", role: "管理员" },
+        { name: "虫二", role: "会员" }, { name: "老校友", role: "会员" }, { name: "新人", role: "会员" }
       ],
       latestReplies: [
         { id: 17, title: "111", time: "10 分钟前" },
         { id: 12, title: "1993 年理科复习班毕业的学生想你……", time: "1 小时前" },
-        { id: 11, title: "我来报道了。", time: "3 小时前" },
-        { id: 8, title: "2013 年 3 月，拍的扶沟县高中校园……", time: "昨天" }
-      ],
-      hot: [
-        { id: 16, title: "一段珍贵的友谊" },
-        { id: 12, title: "1993 级理科复习班" },
-        { id: 6, title: "校园记忆合集" },
-        { id: 9, title: "老操场老照片" }
-      ],
-      gallery: ["校庆", "合影", "老教室", "操场", "图书馆", "校门", "实验室", "食堂"],
-      online: [
-        { name: "350234", role: "会员" },
-        { name: "vip", role: "管理员" },
-        { name: "虫二", role: "会员" },
-        { name: "老校友", role: "会员" }
+        { id: 11, title: "我来报道了。", time: "3 小时前" }
       ],
       boardThreads: {
         2: [
-          { id: 18, title: "aaa", author: "350234", time: "10 分钟前", replies: 0, views: 12 },
-          { id: 17, title: "111", author: "350234", time: "1 小时前", replies: 2, views: 30 },
-          { id: 11, title: "我来报道了。", author: "新人", time: "上周", replies: 2, views: 55 }
+          { id: 18, title: "aaa", author: "350234", time: "10 分钟前", excerpt: "这是第一帖，欢迎大家来校友交流板块聊聊近况～", likes: 2, comments: 0 },
+          { id: 17, title: "111", author: "350234", time: "1 小时前", excerpt: "测试一下发帖功能。", likes: 5, comments: 2 },
+          { id: 11, title: "我来报道了。", author: "新人", time: "上周", excerpt: "新校友报到，请多关照！", likes: 8, comments: 2 }
         ],
-        5: [
-          { id: 3, title: "难忘恩师：我的班主任", author: "校友", time: "2026-1-22 15:30", replies: 1, views: 40 }
-        ],
+        5: [ { id: 3, title: "难忘恩师：我的班主任", author: "校友", time: "2026-1-22", excerpt: "永远记得老师当年的教诲。", likes: 6, comments: 1 } ],
         6: [
-          { id: 16, title: "推荐文章一篇：一段珍贵的友谊……", author: "虫二", time: "昨天", replies: 5, views: 120 },
-          { id: 14, title: "推荐文章一篇：母校情深……", author: "校友", time: "3 天前", replies: 3, views: 88 },
-          { id: 9, title: "扶沟县高中旧址老操场 2013 年 3 月……", author: "摄影组", time: "上月", replies: 6, views: 200 }
+          { id: 16, title: "推荐文章一篇：一段珍贵的友谊……", author: "虫二", time: "昨天", excerpt: "毕业多年，最难忘的还是和同窗在操场散步的傍晚……", likes: 18, comments: 5 },
+          { id: 14, title: "推荐文章一篇：母校情深……", author: "校友", time: "3 天前", excerpt: "母校的一草一木都让人怀念。", likes: 12, comments: 3 }
         ],
         4: [
-          { id: 15, title: "免责声明", author: "管理员", time: "前天", replies: 1, views: 60 },
-          { id: 13, title: "网站定位与声明", author: "管理员", time: "上周", replies: 0, views: 45 }
+          { id: 15, title: "免责声明", author: "管理员", time: "前天", excerpt: "社区内容仅供校友交流，免责声明如下……", likes: 3, comments: 1 },
+          { id: 13, title: "网站定位与声明", author: "管理员", time: "上周", excerpt: "本社区由校友自发组建。", likes: 2, comments: 0 }
         ],
-        7: [
-          { id: 10, title: "欢迎虫二加入！", author: "管理员", time: "上周", replies: 1, views: 33 }
-        ]
+        7: [ { id: 10, title: "欢迎虫二加入！", author: "管理员", time: "上周", excerpt: "欢迎新校友！", likes: 4, comments: 1 } ]
       },
       threadPosts: {
-        18: [ { author: "350234", role: "楼主", time: "10 分钟前", content: "这是第一帖，欢迎大家来校友交流板块聊聊近况～" } ],
+        18: [ { author: "350234", time: "10 分钟前", content: "这是第一帖，欢迎大家来校友交流板块聊聊近况～" } ],
         17: [
-          { author: "350234", role: "楼主", time: "1 小时前", content: "测试一下发帖功能。" },
-          { author: "新人", role: "会员", time: "40 分钟前", content: "回复测试：欢迎欢迎！" }
+          { author: "350234", time: "1 小时前", content: "测试一下发帖功能。" },
+          { author: "新人", time: "40 分钟前", content: "回复测试：欢迎欢迎！" }
         ],
         16: [
-          { author: "虫二", role: "楼主", time: "昨天", content: "毕业多年，最难忘的还是和同窗在操场散步的傍晚……" },
-          { author: "校友", role: "会员", time: "昨天", content: "看哭了，青春真好。" }
+          { author: "虫二", time: "昨天", content: "毕业多年，最难忘的还是和同窗在操场散步的傍晚……" },
+          { author: "校友", time: "昨天", content: "看哭了，青春真好。" }
         ]
       }
     };
 
-    var $view = document.getElementById("view");
-    function esc(s) {
-      return String(s).replace(/[&<>"]/g, function (c) {
-        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    var feed = document.getElementById("feed");
+    function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+    function avatar(name){ return '<div class="avatar">' + esc(name.slice(0,1)) + "</div>"; }
+    function findBoardName(id){ for(var i=0;i<DATA.groups.length;i++){ var b=DATA.groups[i].boards.find(function(x){return String(x.id)===String(id);}); if(b) return b.name; } return "板块"; }
+    function findThread(id){ var all=DATA.threads.concat([].concat.apply([],Object.keys(DATA.boardThreads).map(function(k){return DATA.boardThreads[k];}))); return all.find(function(x){return String(x.id)===String(id);}); }
+
+    function renderSidebars() {
+      var circles = "";
+      DATA.groups.forEach(function(g){
+        g.boards.forEach(function(b){
+          circles += '<div class="circle" onclick="location.hash=\'#/board/' + b.id + '\'"><div class="ic">' + b.icon + '</div><div><div class="nm">' + esc(b.name) + '</div><div class="mt">' + b.threads + ' 主题</div></div></div>';
+        });
       });
+      document.getElementById("circle-nav").innerHTML = circles;
+
+      document.getElementById("hot-tags").innerHTML = DATA.hot.map(function(t){ return '<span class="tag-pill"># ' + esc(t) + "</span>"; }).join("");
+
+      document.getElementById("active-members").innerHTML = DATA.members.map(function(m){
+        return '<div class="member">' + avatar(m.name) + '<div><div style="font-weight:700">' + esc(m.name) + '</div><div style="font-size:12px;color:var(--muted)">' + esc(m.role) + "</div></div></div>";
+      }).join("");
+
+      document.getElementById("latest-replies").innerHTML = DATA.latestReplies.map(function(t){
+        return '<li><a href="#/thread/' + t.id + '">' + esc(t.title) + '</a><div style="color:var(--muted);font-size:12px">' + esc(t.time) + "</div></li>";
+      }).join("");
     }
 
-    function homeView() {
-      var threads = DATA.latestThreads.map(function (t) {
-        return '<li><a class="title" href="#/thread/' + t.id + '">' + esc(t.title) + '</a><span class="meta">' + esc(t.author) + " · " + esc(t.time) + " · 回复 " + t.replies + "</span></li>";
-      }).join("");
-      var replies = DATA.latestReplies.map(function (t) {
-        return '<li><a class="title" href="#/thread/' + t.id + '">' + esc(t.title) + '</a><span class="meta">' + esc(t.time) + "</span></li>";
-      }).join("");
-      var hot = DATA.hot.map(function (t) {
-        return '<li><span class="dot">●</span><a class="title" href="#/thread/' + t.id + '">' + esc(t.title) + "</a></li>";
-      }).join("");
-      var gallery = DATA.gallery.map(function (g) {
-        return '<div class="ph">' + esc(g) + "</div>";
-      }).join("");
-      var online = DATA.online.map(function (u) {
-        return '<span class="online-user">' + esc(u.name) + "<small> (" + esc(u.role) + ")</small></span>";
-      }).join("");
+    function postCard(t) {
+      return '<div class="post"><div class="post-head">' + avatar(t.author) +
+        '<div><div class="nm">' + esc(t.author) + '<span class="tag">' + esc(t.tag || "") + "</span></div>" +
+        '<div class="mt">' + esc(t.time) + "</div></div></div>" +
+        '<div class="ttl"><a href="#/thread/' + t.id + '">' + esc(t.title) + "</a></div>" +
+        '<div class="excerpt">' + esc(t.excerpt || "") + "</div>" +
+        '<div class="post-actions"><span>👍 ' + (t.likes||0) + "</span><span>💬 " + (t.comments||0) + "</span><span>↗ 分享</span></div></div>";
+    }
 
-      var groups = DATA.groups.map(function (g) {
-        var boards = g.boards.map(function (b) {
-          return '<div class="board-row">' +
-            '<div class="board-icon">' + b.icon + "</div>" +
-            '<div class="board-main"><a class="board-name" href="#/board/' + b.id + '">' + esc(b.name) + '</a>' +
-            '<div class="board-meta">主题: ' + b.threads + " · 帖数: " + b.posts + "</div></div>" +
-            '<div class="board-stat">最后发表<br><b>' + esc(b.last) + "</b></div></div>";
+    function renderHome() {
+      var banner = '<div class="banner"><span class="dot"></span><div>欢迎来到校友论坛 · 缅怀青春，联络同窗，共叙校友情谊 🎓</div></div>';
+      var composer = '<div class="composer">' + avatar("我") + '<input placeholder="分享你的近况 / 一段回忆…" /><button class="btn-primary" onclick="alert(\'壳子演示，暂未接入发帖\')">发布</button></div>';
+      var posts = DATA.threads.map(postCard).join("");
+      feed.innerHTML = banner + composer + posts;
+    }
+
+    function renderBoard(id) {
+      var boards = DATA.groups.reduce(function(acc,g){ return acc.concat(g.boards); }, []);
+      if (id && DATA.boardThreads[id]) {
+        var name = findBoardName(id);
+        var list = DATA.boardThreads[id].map(postCard).join("");
+        feed.innerHTML = '<div class="banner"><span class="dot"></span><div>圈子：<b>' + esc(name) + "</b> · 共 " + DATA.boardThreads[id].length + " 个主题</div></div>" + list;
+      } else {
+        var cards = boards.map(function(b){
+          return '<div class="board-card" onclick="location.hash=\'#/board/' + b.id + '\'">' +
+            '<div class="ic">' + b.icon + "</div><div class=\"nm\">" + esc(b.name) + "</div>" +
+            '<div class="ds">' + esc(b.desc) + "</div>" +
+            '<div class="meta"><span>' + b.threads + " 主题</span><span>最后发表 " + esc(b.last) + "</span></div></div>";
         }).join("");
-        return '<div class="forum-group"><div class="group-title">' + esc(g.name) + '</div>' +
-          '<div class="card"><div class="card-body" style="padding:0">' + boards + "</div></div></div>";
-      }).join("");
-
-      $view.innerHTML =
-        '<div class="home-grid"><div>' +
-          '<div class="card" style="margin-bottom:14px"><div class="card-head">最新主题 <a class="more" href="#">更多</a></div><div class="card-body"><ul class="list">' + threads + "</ul></div></div>" +
-          groups +
-        '</div><div>' +
-          '<div class="card" style="margin-bottom:14px"><div class="card-head">最新图片</div><div class="card-body"><div class="gallery">' + gallery + "</div></div></div>" +
-          '<div class="card" style="margin-bottom:14px"><div class="card-head">最新回复</div><div class="card-body"><ul class="list">' + replies + "</ul></div></div>" +
-          '<div class="card" style="margin-bottom:14px"><div class="card-head">热帖</div><div class="card-body"><ul class="list">' + hot + "</ul></div></div>" +
-          '<div class="card"><div class="card-head">在线会员</div><div class="card-body"><div class="online-legend"><span>● 管理员</span><span>● 会员</span><span>● 游客</span></div><div class="online-list">' + online + "</div></div></div>" +
-        "</div></div>";
-    }
-
-    function findBoardName(id) {
-      for (var i = 0; i < DATA.groups.length; i++) {
-        var b = DATA.groups[i].boards.find(function (x) { return String(x.id) === String(id); });
-        if (b) return b.name;
+        feed.innerHTML = '<div class="banner"><span class="dot"></span><div>选择一个圈子开始浏览 🧭</div></div><div class="board-grid">' + cards + "</div>";
       }
-      return "板块";
-    }
-    function findThreadTitle(id) {
-      var all = DATA.latestThreads.concat([].concat.apply([], Object.keys(DATA.boardThreads).map(function (k) { return DATA.boardThreads[k]; })));
-      var t = all.find(function (x) { return String(x.id) === String(id); });
-      return t ? t.title : "帖子详情";
     }
 
-    function boardView(id) {
-      var list = DATA.boardThreads[id] || [];
-      var boardName = findBoardName(id);
-      var items = list.map(function (t) {
-        return '<div class="thread-item"><div><a class="t-title" href="#/thread/' + t.id + '">' + esc(t.title) + '</a><div class="t-meta">' + esc(t.author) + " · " + esc(t.time) + "</div></div>" +
-          '<div class="t-stat">回复 ' + t.replies + "<br>浏览 " + t.views + "</div></div>";
+    function renderThread(id) {
+      var t = findThread(id) || { title: "帖子详情", author: "校友", tag: "", time: "", excerpt: "（示例内容）" };
+      var posts = (DATA.threadPosts[id] || [{ author: "校友", time: "刚刚", content: "（示例帖子内容）这是一段示例正文，用于展示帖子详情页的外观。" }]);
+      var head = '<div class="post"><div class="post-head">' + avatar(t.author) +
+        '<div><div class="nm">' + esc(t.author) + '<span class="tag">' + esc(t.tag || "") + "</span></div><div class=\"mt\">" + esc(t.time) + "</div></div></div>" +
+        '<div class="ttl">' + esc(t.title) + "</div><div class=\"excerpt\">" + esc(t.excerpt || "") + "</div></div>";
+      var replies = posts.map(function(p){
+        return '<div class="reply">' + avatar(p.author) + '<div class="body"><div><span class="nm">' + esc(p.author) + '</span><span class="tm">' + esc(p.time) + "</span></div><div style=\"margin-top:6px\">" + esc(p.content) + "</div></div></div>";
       }).join("");
-      $view.innerHTML =
-        '<div class="breadcrumb"><a href="#/">首页</a> » <a href="#/">校友论坛</a> » <b>' + esc(boardName) + "</b></div>" +
-        '<div style="margin-bottom:12px"><a class="btn btn-solid" href="#/thread/new">+ 发表主题</a></div>' +
-        '<div class="card"><div class="card-body" style="padding:0">' + (items || '<div class="card-body">暂无主题</div>') + "</div></div>" +
-        '<div class="pagination"><a href="#">上一页</a><a href="#">1</a><a href="#">下一页</a></div>';
-    }
-
-    function threadView(id) {
-      var posts = DATA.threadPosts[id] || [
-        { author: "校友", role: "会员", time: "刚刚", content: "（示例帖子内容）这是一段示例正文，用于展示帖子详情页的外观。" }
-      ];
-      var title = findThreadTitle(id);
-      var postHtml = posts.map(function (p, i) {
-        return '<div class="post"><div class="author"><div class="avatar">' + esc(p.author.slice(0, 1)) + "</div>" +
-          '<div class="name">' + esc(p.author) + '</div><div class="role">' + (i === 0 ? "楼主" : esc(p.role)) + "</div></div>" +
-          '<div class="body"><div class="content">' + esc(p.content) + '</div><div class="time">' + esc(p.time) + "</div></div></div>";
-      }).join("");
-      $view.innerHTML =
-        '<div class="breadcrumb"><a href="#/">首页</a> » <a href="#/board/2">校友交流</a> » <b>' + esc(title) + "</b></div>" +
-        postHtml +
-        '<div class="reply-box"><div class="card-head" style="border:none;padding:0 0 10px">发表回复</div>' +
-        '<textarea placeholder="写下你的回复…（壳子演示，暂不提交）"></textarea>' +
-        '<div class="row"><button class="btn btn-solid">回复</button></div></div>';
-    }
-
-    function loginView() {
-      $view.innerHTML =
-        '<div class="auth-wrap"><div class="auth-tabs"><button id="tab-login" class="active">登录</button><button id="tab-reg">注册</button></div>' +
-        '<div class="auth-card"><h2 id="auth-title">登录校友论坛</h2>' +
-        '<div class="field"><label>用户名</label><input type="text" placeholder="请输入用户名" /></div>' +
-        '<div class="field"><label>密码</label><input type="password" placeholder="请输入密码" /></div>' +
-        '<div class="field" id="reg-extra" style="display:none"><label>邮箱</label><input type="text" placeholder="请输入邮箱" /></div>' +
-        '<button class="btn btn-solid" style="width:100%;padding:10px">提交</button>' +
-        '<p style="font-size:12px;color:#8a8f99;margin-top:12px">壳子演示：表单外观已完成，暂不接入后端。</p></div></div>';
-      var loginBtn = document.getElementById("tab-login");
-      var regBtn = document.getElementById("tab-reg");
-      var title = document.getElementById("auth-title");
-      var extra = document.getElementById("reg-extra");
-      loginBtn.onclick = function () { loginBtn.classList.add("active"); regBtn.classList.remove("active"); title.textContent = "登录校友论坛"; extra.style.display = "none"; };
-      regBtn.onclick = function () { regBtn.classList.add("active"); loginBtn.classList.remove("active"); title.textContent = "注册校友论坛"; extra.style.display = "block"; };
+      feed.innerHTML = head + '<div style="margin:14px 0 6px;font-weight:800">' + posts.length + " 条回复</div>" + replies +
+        '<div class="reply-box"><div style="font-weight:800;margin-bottom:10px">发表回复</div><textarea placeholder="写下你的回复…（壳子演示，暂不提交）"></textarea><div class="row"><button class="btn-primary">回复</button></div></div>';
     }
 
     function router() {
       var hash = location.hash || "#/";
       var parts = hash.replace(/^#\//, "").split("/");
-      if (parts[0] === "" || parts[0] === undefined) return homeView();
-      if (parts[0] === "board") return boardView(parts[1]);
-      if (parts[0] === "thread") return threadView(parts[1]);
-      if (parts[0] === "login") return loginView();
-      return homeView();
+      if (hash === "#/login") { openModal(); return; }
+      closeModal();
+      if (parts[0] === "" || parts[0] === undefined) return renderHome();
+      if (parts[0] === "board") return renderBoard(parts[1]);
+      if (parts[0] === "thread") return renderThread(parts[1]);
+      return renderHome();
     }
 
+    var modal = document.getElementById("modal");
+    function openModal(){ modal.classList.add("show"); }
+    function closeModal(){ modal.classList.remove("show"); }
+    document.getElementById("close-modal").addEventListener("click", function(e){ e.preventDefault(); closeModal(); });
+    modal.addEventListener("click", function(e){ if(e.target === modal) closeModal(); });
+
     function init() {
-      document.getElementById("toggle-narrow").addEventListener("click", function (e) {
-        e.preventDefault(); document.body.classList.toggle("narrow");
+      renderSidebars();
+      document.getElementById("toggle-narrow"); // noop
+      document.getElementById("search-btn").addEventListener("click", function(){
+        var q = document.getElementById("search-input").value.trim(); if(q) alert("搜索：" + q + "（壳子演示，未接入搜索）");
       });
-      document.getElementById("search-btn").addEventListener("click", function () {
-        var q = document.getElementById("search-input").value.trim();
-        if (q) alert("搜索：" + q + "（壳子演示，未接入搜索）");
-      });
+      var lb = document.getElementById("tab-login"), rb = document.getElementById("tab-reg");
+      var at = document.getElementById("auth-title"), ex = document.getElementById("reg-extra");
+      lb.onclick = function(){ lb.classList.add("active"); rb.classList.remove("active"); at.textContent="登录校友论坛"; ex.style.display="none"; };
+      rb.onclick = function(){ rb.classList.add("active"); lb.classList.remove("active"); at.textContent="注册校友论坛"; ex.style.display="block"; };
       window.addEventListener("hashchange", router);
       router();
     }
-
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", init);
-    } else {
-      init();
-    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
   })();
   </script>
 </body>
